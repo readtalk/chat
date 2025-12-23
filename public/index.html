@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+	<head>
+		<meta charset="utf-8" />
+		<title>READTalk - Chat</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="css/skeleton.css" />
+		<link rel="stylesheet" href="styles.css" />
+
+		<link rel="icon" type="image/ico" href="favicon.ico" />
+		<script src="/dist/index.js" type="module"></script>
+	</head>
+
+	<body>
+		<div class="container" style="width:95%; height:100%">
+			<div class="row" style="height:100%">
+				<div class="one-third column" style="margin-top:25%">
+					<h4><b>READ</b>Talk  Messenger</h4>
+					<p></p>
+
+					<button id="themeToggle" class="button" style="margin-top:20px">
+						🌙 Dark
+					</button>
+				</div>
+
+				<div class="two-thirds column" id="root"></div>
+			</div>
+		</div>
+
+		<script>
+			const root = document.documentElement
+			const savedTheme = localStorage.getItem("theme") || "light"
+			root.dataset.theme = savedTheme
+
+			const btn = document.getElementById("themeToggle")
+			if (btn) {
+				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark"
+				btn.onclick = () => {
+					const next = root.dataset.theme === "dark" ? "light" : "dark"
+					root.dataset.theme = next
+					localStorage.setItem("theme", next)
+					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark"
+				}
+			}
+		</script>
+	</body>
+</html>
