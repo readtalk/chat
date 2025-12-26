@@ -1,0 +1,44 @@
+{
+	"compatibility_date": "2025-10-08",
+	"main": "src/server/index.ts",
+	"name": "chat",
+	"migrations": [
+		{
+			"new_sqlite_classes": ["Chat"],
+			"tag": "v1"
+		}
+	],
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application"
+	},
+	"build": {
+		"command": "esbuild src/client/index.tsx --bundle --splitting --format=esm --platform=browser --outdir=public/dist"
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"class_name": "Chat",
+				"name": "Chat"
+			}
+		]
+	},
+	"d1_databases": [
+		{
+			"binding": "ROOM_DB",
+			"database_name": "log_db",
+			"database_id": "b8be1d52-2ba4-4468-9c59-661420fdf408"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "ROOM_KV",
+			"id": "2717482567924ee2a095f3548a07c520"
+		}
+	],
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true
+}
