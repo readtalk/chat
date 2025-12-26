@@ -11,18 +11,112 @@
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
+		
+		<!-- CSS untuk Theme Enhancement -->
+		<style>
+			/* Smooth transition untuk theme switch */
+			body, .container, .row, h4, p, button {
+				transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+			}
+			
+			/* Theme-specific styling */
+			[data-theme="dark"] {
+				background-color: #1a1a1a;
+				color: #f0f0f0;
+			}
+			
+			[data-theme="dark"] .container {
+				background-color: #2d2d2d;
+			}
+			
+			[data-theme="dark"] .button {
+				background-color: #444;
+				border-color: #555;
+				color: #fff;
+			}
+			
+			[data-theme="dark"] .button:hover {
+				background-color: #555;
+			}
+			
+			[data-theme="light"] .button {
+				background-color: #f5f5f5;
+				border-color: #ddd;
+				color: #333;
+			}
+			
+			[data-theme="light"] .button:hover {
+				background-color: #e8e8e8;
+			}
+			
+			/* Improved button styling */
+			#themeToggle {
+				min-width: 120px;
+				padding: 12px 20px;
+				font-weight: 600;
+				border-radius: 8px;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 8px;
+				border: 2px solid transparent;
+				transition: all 0.2s ease;
+			}
+			
+			#themeToggle:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+			}
+			
+			[data-theme="dark"] #themeToggle:hover {
+				box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+			}
+			
+			/* Theme indicator dot */
+			.theme-indicator {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				margin-right: 8px;
+				background-color: #ffcc00;
+			}
+			
+			[data-theme="dark"] .theme-indicator {
+				background-color: #4dabf7;
+			}
+			
+			/* Theme status text */
+			.theme-status {
+				font-size: 0.9em;
+				opacity: 0.8;
+				margin-top: 5px;
+			}
+		</style>
 	</head>
 
 	<body>
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
 				<div class="one-third column" style="margin-top:25%">
-					<h4><b>READ</b>Talk  Messenger</h4>
-					<p></p>
+					<h4><b>READ</b>Talk Messenger</h4>
+					<p class="theme-status" id="themeStatus">
+						<span class="theme-indicator"></span>
+						Theme: <span id="themeName">Light</span>
+					</p>
 
 					<button id="themeToggle" class="button" style="margin-top:20px">
-						🌙 Dark
+						🌙 Dark Mode
 					</button>
+					
+					<!-- Optional: Theme preferences -->
+					<div style="margin-top: 15px; font-size: 0.9em;">
+						<label>
+							<input type="checkbox" id="autoThemeToggle">
+							Sync dengan sistem
+						</label>
+					</div>
 				</div>
 
 				<div class="two-thirds column" id="root"></div>
@@ -30,18 +124,145 @@
 		</div>
 
 		<script>
-			const root = document.documentElement
-			const savedTheme = localStorage.getItem("theme") || "light"
-			root.dataset.theme = savedTheme
+			// Enhanced Theme Manager
+			class ThemeManager {
+				constructor() {
+					this.root = document.documentElement;
+					this.btn = document.getElementById("themeToggle");
+					this.themeNameEl = document.getElementById("themeName");
+					this.themeStatusEl = document.getElementById("themeStatus");
+					this.autoThemeToggle = document.getElementById("autoThemeToggle");
+					
+					this.init();
+				}
+				
+				init() {
+					// Load saved theme or detect system preference
+					const savedTheme = localStorage.getItem("theme");
+					const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+					
+					let initialTheme = "light";
+					
+					if (savedTheme) {
+						initialTheme = savedTheme;
+					} else if (systemPrefersDark) {
+						initialTheme = "dark";
+						if (this.autoThemeToggle) {
+							this.autoThemeToggle.checked = true;
+						}
+					}
+					
+					this.setTheme(initialTheme);
+					this.setupEventListeners();
+					this.setupSystemThemeListener();
+				}
+				
+				setTheme(theme) {
+					this.root.dataset.theme = theme;
+					localStorage.setItem("theme", theme);
+					
+					// Update button text
+					if (this.btn) {
+						this.btn.textContent = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+						this.btn.title = `Switch to ${theme === "dark" ? "light" : "dark"} theme`;
+					}
+					
+					// Update status text
+					if (this.themeNameEl) {
+						this.themeNameEl.textContent = theme === "dark" ? "Dark" : "Light";
+					}
+					
+					// Update page title for screen readers
+					document.title = `READTalk - Chat (${theme === "dark" ? "Dark" : "Light"} Theme)`;
+					
+					// Dispatch custom event for other components
+					window.dispatchEvent(new CustomEvent('themechange', { 
+						detail: { theme: theme } 
+					}));
+					
+					console.log(`Theme changed to: ${theme}`);
+				}
+				
+				toggleTheme() {
+					const next = this.root.dataset.theme === "dark" ? "light" : "dark";
+					this.setTheme(next);
+					
+					// Jika manual toggle, uncheck auto sync
+					if (this.autoThemeToggle) {
+						this.autoThemeToggle.checked = false;
+					}
+				}
+				
+				setupEventListeners() {
+					// Button click
+					if (this.btn) {
+						this.btn.onclick = () => this.toggleTheme();
+					}
+					
+					// Auto theme sync checkbox
+					if (this.autoThemeToggle) {
+						this.autoThemeToggle.onchange = (e) => {
+							if (e.target.checked) {
+								// Sync dengan sistem
+								const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+								this.setTheme(systemPrefersDark ? "dark" : "light");
+							}
+						};
+					}
+					
+					// Keyboard shortcut (Alt+T)
+					document.addEventListener('keydown', (e) => {
+						if (e.altKey && e.key === 't') {
+							this.toggleTheme();
+							e.preventDefault();
+						}
+					});
+				}
+				
+				setupSystemThemeListener() {
+					const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+					
+					mediaQuery.addEventListener('change', (e) => {
+						// Hanya sync jika checkbox auto theme checked
+						if (this.autoThemeToggle && this.autoThemeToggle.checked) {
+							this.setTheme(e.matches ? "dark" : "light");
+						}
+					});
+				}
+				
+				// Public method untuk komponen lain
+				getCurrentTheme() {
+					return this.root.dataset.theme || "light";
+				}
+			}
+			
+			// Initialize theme manager when DOM is ready
+			document.addEventListener('DOMContentLoaded', () => {
+				window.themeManager = new ThemeManager();
+				
+				// Contoh: Other components can listen to theme changes
+				window.addEventListener('themechange', (e) => {
+					console.log('Theme changed event caught:', e.detail.theme);
+					// Di sini bisa update komponen lain yang tergantung theme
+				});
+			});
+			
+			// Fallback untuk browser lama
+			if (!window.matchMedia) {
+				console.warn('matchMedia not supported, using basic theme toggle');
+				const root = document.documentElement;
+				const savedTheme = localStorage.getItem("theme") || "light";
+				root.dataset.theme = savedTheme;
 
-			const btn = document.getElementById("themeToggle")
-			if (btn) {
-				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark"
-				btn.onclick = () => {
-					const next = root.dataset.theme === "dark" ? "light" : "dark"
-					root.dataset.theme = next
-					localStorage.setItem("theme", next)
-					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark"
+				const btn = document.getElementById("themeToggle");
+				if (btn) {
+					btn.textContent = savedTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+					btn.onclick = () => {
+						const next = root.dataset.theme === "dark" ? "light" : "dark";
+						root.dataset.theme = next;
+						localStorage.setItem("theme", next);
+						btn.textContent = next === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+					};
 				}
 			}
 		</script>
