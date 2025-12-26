@@ -1,4 +1,7 @@
-/* styles.css - VERSI NORMAL (Seperti semula) */
+[data-theme="dark"] body { background: #1a1a1a; color: #f0f0f0; }
+[data-theme="dark"] .container { background: #2d2d2d; }
+[data-theme="dark"] .button { background: #444; color: white; }
+
 body,
 html {
 	height: 100%;
@@ -38,7 +41,7 @@ html {
 	display: none;
 	padding: 0;
 	line-height: 18px;
-	border: none; /* Fixed: no quotes */
+	border: none;
 }
 
 .send-message {
