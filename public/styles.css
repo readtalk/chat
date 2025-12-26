@@ -110,3 +110,14 @@ html {
 	fill: initial !important;
 	stroke: initial !important;
 }
+/* TAMBAHKAN DI styles.css */
+
+/* Warna merah tetap untuk READ di semua tema */
+h4 b {
+    color: #ff0000 !important;
+}
+
+/* Opsional: Tambahkan efek hover jika diinginkan */
+h4 b:hover {
+    opacity: 0.9;
+}
