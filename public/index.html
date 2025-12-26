@@ -1,69 +1,50 @@
+Oke kita lupakan dulu soal itu ... sekarang kamu fokus aja ke tombol day/night
+
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 	<head>
 		<meta charset="utf-8" />
 		<title>READTalk - Chat</title>
-		<meta name="description" content="" />
-		<meta name="author" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
+
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/skeleton.css" />
 		<link rel="stylesheet" href="styles.css" />
-		
+
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
-		
-		<!-- Minimal CSS untuk tombol -->
-		<style>
-			.theme-btn {
-				margin-top: 20px;
-				cursor: pointer;
-				transition: all 0.2s;
-			}
-			.theme-btn:hover {
-				transform: translateY(-1px);
-			}
-		</style>
 	</head>
+
 	<body>
-		<div class="container" style="width: 95%; height: 100%">
-			<div class="row" style="height: 100%">
-				<div class="one-third column" style="margin-top: 25%">
-					<h4><b>READ</b>Talk</h4>
-					<p>by SOEPARNO Technology</p>
-					
-					<!-- TAMBAHAN: Tombol Day/Night -->
-					<button id="themeToggle" class="button theme-btn">
-						🌙 Dark Mode
+		<div class="container" style="width:95%; height:100%">
+			<div class="row" style="height:100%">
+				<div class="one-third column" style="margin-top:25%">
+					<h4><b>READ</b>Talk  Messenger</h4>
+					<p></p>
+
+					<button id="themeToggle" class="button" style="margin-top:20px">
+						🌙 Dark
 					</button>
 				</div>
+
 				<div class="two-thirds column" id="root"></div>
 			</div>
 		</div>
-		
-		<!-- TAMBAHAN: Script untuk toggle -->
+
 		<script>
-			// 1. Set tema awal
-			const savedTheme = localStorage.getItem('theme') || 'light';
-			document.documentElement.setAttribute('data-theme', savedTheme);
-			
-			// 2. Setup tombol
-			const btn = document.getElementById('themeToggle');
+			const root = document.documentElement
+			const savedTheme = localStorage.getItem("theme") || "light"
+			root.dataset.theme = savedTheme
+
+			const btn = document.getElementById("themeToggle")
 			if (btn) {
-				// Set teks awal
-				btn.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-				
-				// Click handler
-				btn.onclick = function() {
-					const current = document.documentElement.getAttribute('data-theme');
-					const next = current === 'dark' ? 'light' : 'dark';
-					
-					// Apply perubahan
-					document.documentElement.setAttribute('data-theme', next);
-					localStorage.setItem('theme', next);
-					btn.textContent = next === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-				};
+				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark"
+				btn.onclick = () => {
+					const next = root.dataset.theme === "dark" ? "light" : "dark"
+					root.dataset.theme = next
+					localStorage.setItem("theme", next)
+					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark"
+				}
 			}
 		</script>
 	</body>
