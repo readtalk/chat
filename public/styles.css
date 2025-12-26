@@ -1,5 +1,4 @@
 /* ========== DAY/NIGHT THEME ========== */
-/* Tambahkan di BARIS PALING ATAS file */
 :root {
     --bg-color: #ffffff;
     --text-color: #333333;
@@ -12,7 +11,7 @@
     --container-bg: #2d2d2d;
 }
 
-/* Terapkan variabel ke elemen */
+/* ========== BASE STYLES ========== */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -24,8 +23,12 @@ body {
     transition: background-color 0.3s;
 }
 
-/* ========== STYLES ASLI ANDA ========== */
-/* Kode CSS Anda yang sudah ada, TIDAK DIUBAH */
+/* ========== BUTTON ========== */
+.button {
+    transition: all 0.3s;
+}
+
+/* ========== EXISTING CHAT STYLES ========== */
 body,
 html {
     height: 100%;
@@ -46,7 +49,6 @@ html {
     justify-content: flex-end;
     overflow-y: auto;
     height: 100%;
-    /* padding: 10px; */
 }
 
 .message {
@@ -63,11 +65,10 @@ html {
     width: 22px;
     height: 20px;
     left: -60px;
-    /* display: "block", */
     display: none;
     padding: 0;
     line-height: 18px;
-    border: none; /* PERBAIKI: "none" tanpa tanda kutip */
+    border: none;
 }
 
 .send-message {
