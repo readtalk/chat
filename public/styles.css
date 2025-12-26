@@ -1,6 +1,3 @@
-/* STYLES.CSS - MODE PENUKARAN WARNA OTOMATIS (FIXED) */
-/* Ketika background putih, semua elemen hitam UI jadi putih DAN background jadi hitam */
-
 body,
 html {
 	height: 100%;
@@ -10,15 +7,11 @@ html {
 	flex-direction: column;
 }
 
-/* LOGIKA PENUKARAN WARNA LENGKAP */
-/* Hanya aktif ketika tema light (background putih) */
 [data-theme="light"] {
-	/* BACKGROUND PUTIH ASLI DITUKAR JADI HITAM */
 	background-color: black !important;
 	color: white !important;
 }
 
-/* Semua teks dan elemen UI yang berwarna hitam/gelap diubah jadi putih */
 [data-theme="light"] * {
 	color: white !important;
 	border-color: white !important;
@@ -27,7 +20,6 @@ html {
 	stroke: white !important;
 }
 
-/* Khusus untuk container dan elemen block dapat background hitam */
 [data-theme="light"] .container,
 [data-theme="light"] .row,
 [data-theme="light"] .column,
@@ -35,7 +27,6 @@ html {
 	background-color: black !important;
 }
 
-/* Input dan textarea */
 [data-theme="light"] input,
 [data-theme="light"] textarea,
 [data-theme="light"] .my-input-text {
@@ -44,19 +35,16 @@ html {
 	color: white !important;
 }
 
-/* Placeholder juga jadi putih transparan */
 [data-theme="light"] .my-input-text::placeholder {
 	color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Tombol tema khusus */
 [data-theme="light"] #themeToggle {
 	color: white !important;
 	border-color: white !important;
 	background-color: black !important;
 }
 
-/* ========== STYLE ASLI ========== */
 .chat {
 	padding-top: 40px;
 }
@@ -97,7 +85,6 @@ html {
 	color: #ccc;
 }
 
-/* Untuk tema dark, kembalikan ke normal */
 [data-theme="dark"] {
 	background-color: initial !important;
 	color: initial !important;
@@ -109,15 +96,4 @@ html {
 	background-color: initial !important;
 	fill: initial !important;
 	stroke: initial !important;
-}
-/* TAMBAHKAN DI styles.css */
-
-/* Warna merah tetap untuk READ di semua tema */
-h4 b {
-    color: #ff0000 !important;
-}
-
-/* Opsional: Tambahkan efek hover jika diinginkan */
-h4 b:hover {
-    opacity: 0.9;
 }
