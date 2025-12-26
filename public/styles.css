@@ -1,9 +1,9 @@
-/* DAY/NIGHT - TAMBAHAN DI ATAS */
+/* Hanya ini yang ditambah */
 [data-theme="dark"] {
     filter: invert(1) hue-rotate(180deg);
 }
 
-/* KODE ORIGINAL ANDA - 0 PERUBAHAN */
+/* File original Anda - TIDAK DIUBAH */
 body,
 html {
     height: 100%;
