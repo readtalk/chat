@@ -1,9 +1,32 @@
-/* Hanya ini yang ditambah */
+/* ===== DAY/NIGHT - TUKAR HITAM/PUTIH ===== */
 [data-theme="dark"] {
-    filter: invert(1) hue-rotate(180deg);
+    /* Background utama */
+    background-color: #000000 !important;
+    
+    /* Semua tulisan */
+    color: #ffffff !important;
 }
 
-/* File original Anda - TIDAK DIUBAH */
+[data-theme="dark"] .container {
+    /* Background container */
+    background-color: #1a1a1a !important;
+}
+
+[data-theme="dark"] .button {
+    /* Tombol day/night */
+    background-color: #333333 !important;
+    color: #ffffff !important;
+    border-color: #555555 !important;
+}
+
+[data-theme="dark"] .my-input-text {
+    /* Kotak papan ketik */
+    background-color: #222222 !important;
+    color: #ffffff !important;
+    border-color: #444444 !important;
+}
+
+/* ===== CSS ORIGINAL ANDA - 0% PERUBAHAN ===== */
 body,
 html {
     height: 100%;
