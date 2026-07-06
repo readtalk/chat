@@ -1,7 +1,7 @@
 {
 	"compatibility_date": "2025-10-08",
 	"main": "src/server/index.ts",
-	"name": "app",
+	"name": "chat",
 	"migrations": [
 		{
 			"new_sqlite_classes": ["Chat"],
