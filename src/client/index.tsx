@@ -13,8 +13,11 @@ import { nanoid } from "nanoid";
 import { type ChatMessage, type Message } from "../shared";
 
 function App() {
-	const [name, setName] = useState(localStorage.getItem("chatName") || "");
-	const [showPopup, setShowPopup] = useState(!name);
+	// ============================================================
+	// STATE: Nama dari input user (gak pake localStorage)
+	// ============================================================
+	const [name, setName] = useState("");
+	const [showPopup, setShowPopup] = useState(true);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const { room } = useParams();
 
@@ -68,29 +71,27 @@ function App() {
 	});
 
 	// ============================================================
-	// POPUP "YOUR NAME"
+	// POPUP "YOUR NAME" (Muncul di setiap tab baru)
 	// ============================================================
 	if (showPopup) {
 		return (
-			<div className="popup-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-				<div className="popup" style={{ background: "white", padding: "2rem", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", textAlign: "center" }}>
-					<h2>Your Name</h2>
+			<div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+				<div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
+					<h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Your Name</h2>
 					<input
 						type="text"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						placeholder="Enter your name..."
-						style={{ padding: "0.5rem", width: "200px", marginBottom: "1rem" }}
+						className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
 					/>
-					<br />
 					<button
 						onClick={() => {
 							if (name.trim()) {
-								localStorage.setItem("chatName", name);
 								setShowPopup(false);
 							}
 						}}
-						style={{ padding: "0.5rem 1rem", background: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+						className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
 					>
 						Start Chat
 					</button>
