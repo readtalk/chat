@@ -11,34 +11,27 @@ export class Chat extends Server<Env> {
 	static options = { hibernate: true };
 
 	messages = [] as ChatMessage[];
-	userName = ""; // ← Tambahkan ini untuk menyimpan nama
 
 	broadcastMessage(message: Message, exclude?: string[]) {
 		this.broadcast(JSON.stringify(message), exclude);
 	}
 
 	onStart() {
+		// this is where you can initialize things that need to be done before the server starts
+		// for example, load previous messages from a database or a service
+
+		// create the messages table if it doesn't exist
 		this.ctx.storage.sql.exec(
 			`CREATE TABLE IF NOT EXISTS messages (id TEXT PRIMARY KEY, user TEXT, role TEXT, content TEXT)`,
 		);
 
+		// load the messages from the database
 		this.messages = this.ctx.storage.sql
 			.exec(`SELECT * FROM messages`)
 			.toArray() as ChatMessage[];
 	}
 
 	onConnect(connection: Connection) {
-		// Kirim nama yang tersimpan
-		if (this.userName) {
-			connection.send(
-				JSON.stringify({
-					type: "user-name",
-					name: this.userName,
-				} satisfies Message),
-			);
-		}
-
-		// Kirim semua pesan
 		connection.send(
 			JSON.stringify({
 				type: "all",
@@ -48,6 +41,7 @@ export class Chat extends Server<Env> {
 	}
 
 	saveMessage(message: ChatMessage) {
+		// check if the message already exists
 		const existingMessage = this.messages.find((m) => m.id === message.id);
 		if (existingMessage) {
 			this.messages = this.messages.map((m) => {
@@ -60,6 +54,7 @@ export class Chat extends Server<Env> {
 			this.messages.push(message);
 		}
 
+		// Use parameterized queries to prevent SQL injection
 		this.ctx.storage.sql.exec(
 			`INSERT INTO messages (id, user, role, content) VALUES (?, ?, ?, ?)
 			 ON CONFLICT (id) DO UPDATE SET content = ?`,
@@ -72,26 +67,11 @@ export class Chat extends Server<Env> {
 	}
 
 	onMessage(connection: Connection, message: WSMessage) {
-		const parsed = JSON.parse(message as string);
-
-		// ============================================================
-		// HANDLER UPDATE NAMA
-		// ============================================================
-		if (parsed.type === "update-name") {
-			this.userName = parsed.name;
-			this.broadcast(
-				JSON.stringify({
-					type: "user-name",
-					name: this.userName,
-				} satisfies Message),
-			);
-			return;
-		}
-
-		// ============================================================
-		// HANDLER PESAN CHAT
-		// ============================================================
+		// let's broadcast the raw message to everyone else
 		this.broadcast(message);
+
+		// let's update our local messages store
+		const parsed = JSON.parse(message as string) as Message;
 		if (parsed.type === "add" || parsed.type === "update") {
 			this.saveMessage(parsed);
 		}
