@@ -1,5 +1,5 @@
 {
-	"name": "chat",
+	"name": "chatting",
 	"description": "Chat with other users in real-time using READTalk Messenger, Durable Objects, PartyKit, and OpenAuth.",
 	"cloudflare": {
 		"label": "READTalk Messenger",
