@@ -1,6 +1,6 @@
 {
-	"name": "chatting",
-	"description": "Chat with other users in real-time using READTalk Messenger, Durable Objects, PartyKit, and OpenAuth.",
+	"name": "chat",
+	"description": "Chat with other users in real-time using READTalk Messenger, Durable Objects and PartyKit.",
 	"cloudflare": {
 		"label": "READTalk Messenger",
 		"products": [
@@ -14,14 +14,13 @@
 		"preview_image_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/a4f0dac8-ca71-4001-ac95-4036c400ed00/preview",
 		"publish": true
 	},
-	"dependencies": {		
+	"dependencies": {
 		"nanoid": "5.1.6",
 		"partyserver": "0.0.75",
 		"partysocket": "1.1.6",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"react-router": "7.9.6",
-		"valibot": "1.2.0"
+		"react-router": "7.9.6"
 	},
 	"devDependencies": {
 		"@types/react": "^19.0.0",
@@ -35,7 +34,6 @@
 		"cf-typegen": "wrangler types ./src/server/worker-configuration.d.ts",
 		"check": "tsc --project src/client && tsc --project src/server && wrangler deploy --dry-run",
 		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"predeploy": "wrangler d1 migrations apply AUTH_DB --remote"
+		"dev": "wrangler dev"
 	}
 }
