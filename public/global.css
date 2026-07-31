@@ -9,7 +9,6 @@
   -moz-osx-font-smoothing: grayscale; 
 }
 
-/* Reset fullscreen app */
 *, *::before, *::after { 
   box-sizing: border-box; 
 }
@@ -32,18 +31,16 @@ body {
   min-height: 100dvh; 
 }
 
-/* Link warna sesuai tema READTalk */
 a { 
   font-weight: 500; 
-  color: #ff0000; /* Ganti dari #00a884 */
+  color: #ff0000;
   text-decoration: none; 
 }
 
 a:hover { 
-  color: #e60000; /* Ganti dari #25d366 */
+  color: #e60000;
 }
 
-/* Hapus style default Vite */
 h1 { 
   margin: 0; 
 }
@@ -67,6 +64,6 @@ button {
   }
   
   a:hover { 
-    color: #ff3333; /* Merah terang buat hover di dark mode */
+    color: #ff3333;
   }
 }
