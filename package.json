@@ -14,8 +14,7 @@
 		"preview_image_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/a4f0dac8-ca71-4001-ac95-4036c400ed00/preview",
 		"publish": true
 	},
-	"dependencies": {
-		"@openauthjs/openauth": "0.4.3",
+	"dependencies": {		
 		"nanoid": "5.1.6",
 		"partyserver": "0.0.75",
 		"partysocket": "1.1.6",
