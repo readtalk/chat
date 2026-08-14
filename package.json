@@ -1,6 +1,6 @@
 {
 	"name": "chat",
-	"description": "Chat with other users in real-time using READTalk Messenger, Durable Objects and PartyKit.",
+	"description": "READTalk Messenger chat with other users in real-time using, Durable Objects and PartyKit.",
 	"cloudflare": {
 		"label": "READTalk",
 		"products": [
