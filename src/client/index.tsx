@@ -10,11 +10,10 @@ import {
 } from "react-router";
 import { nanoid } from "nanoid";
 
-import { type ChatMessage, type Message } from "../shared";
+import { names, type ChatMessage, type Message } from "../shared";
 
 function App() {
-	const [name, setName] = useState(localStorage.getItem("chatName") || "");
-	const [showPopup, setShowPopup] = useState(!name);
+	const [name] = useState(names[Math.floor(Math.random() * names.length)]);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const { room } = useParams();
 
@@ -26,6 +25,7 @@ function App() {
 			if (message.type === "add") {
 				const foundIndex = messages.findIndex((m) => m.id === message.id);
 				if (foundIndex === -1) {
+					// probably someone else who added a message
 					setMessages((messages) => [
 						...messages,
 						{
@@ -36,6 +36,9 @@ function App() {
 						},
 					]);
 				} else {
+					// this usually means we ourselves added a message
+					// and it was broadcasted back
+					// so let's replace the message with the new message
 					setMessages((messages) => {
 						return messages
 							.slice(0, foundIndex)
@@ -67,41 +70,6 @@ function App() {
 		},
 	});
 
-	// ============================================================
-	// POPUP "YOUR NAME"
-	// ============================================================
-	if (showPopup) {
-		return (
-			<div className="popup-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-				<div className="popup" style={{ background: "white", padding: "2rem", borderRadius: "8px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)", textAlign: "center" }}>
-					<h2>Your Name</h2>
-					<input
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						placeholder="Enter your name..."
-						style={{ padding: "0.5rem", width: "200px", marginBottom: "1rem" }}
-					/>
-					<br />
-					<button
-						onClick={() => {
-							if (name.trim()) {
-								localStorage.setItem("chatName", name);
-								setShowPopup(false);
-							}
-						}}
-						style={{ padding: "0.5rem 1rem", background: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
-					>
-						Start Chat
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	// ============================================================
-	// CHAT
-	// ============================================================
 	return (
 		<div className="chat container">
 			{messages.map((message) => (
@@ -124,12 +92,15 @@ function App() {
 						role: "user",
 					};
 					setMessages((messages) => [...messages, chatMessage]);
+					// we could broadcast the message here
+
 					socket.send(
 						JSON.stringify({
 							type: "add",
 							...chatMessage,
 						} satisfies Message),
 					);
+
 					content.value = "";
 				}}
 			>
