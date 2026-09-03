@@ -13,11 +13,17 @@ import { nanoid } from "nanoid";
 import { type ChatMessage, type Message } from "../shared";
 
 function App() {
+	// ============================================================
+	// STATE: NAMA + POPUP
+	// ============================================================
 	const [name, setName] = useState("");
 	const [showPopup, setShowPopup] = useState(true);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const { room } = useParams();
 
+	// ============================================================
+	// WEBSOCKET (cuma jalan kalo popup udah ditutup)
+	// ============================================================
 	const socket = usePartySocket({
 		party: "chat",
 		room,
@@ -69,7 +75,7 @@ function App() {
 	});
 
 	// ============================================================
-	// FORM "YOUR NAME" — MUNCUL DULUAN
+	// FORM "YOUR NAME" (MUNCUL DULUAN)
 	// ============================================================
 	if (showPopup) {
 		return (
@@ -89,7 +95,6 @@ function App() {
 						onClick={() => {
 							if (name.trim()) {
 								setShowPopup(false);
-								// Nanolink sudah dibuat di route, chat muncul
 							}
 						}}
 						className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
@@ -102,12 +107,12 @@ function App() {
 	}
 
 	// ============================================================
-	// CHAT — MUNCUL SETELAH NAMA DIISI + NANOLINK AKTIF
+	// CHAT (MUNCUL SETELAH POPUP DITUTUP)
 	// ============================================================
 	return (
 		<div className="flex flex-col h-screen max-w-4xl mx-auto p-4">
 			<div className="flex justify-between items-center mb-4">
-				<h1 className="text-xl font-bold">Chat Room: {room}</h1>
+				<h1 className="text-xl font-bold">Chat</h1>
 				<span className="text-sm text-gray-500 dark:text-gray-400">
 					Hello, {name}!
 				</span>
@@ -157,9 +162,7 @@ function App() {
 	);
 }
 
-// ============================================================
-// ROUTING: NANOLINK DARI ROOT
-// ============================================================
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById("root")!).render(
 	<BrowserRouter>
 		<Routes>
