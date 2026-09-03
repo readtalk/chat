@@ -25,44 +25,8 @@ function App() {
 		onMessage: (evt) => {
 			const message = JSON.parse(evt.data as string) as Message;
 			if (message.type === "add") {
-				const foundIndex = messages.findIndex((m) => m.id === message.id);
-				if (foundIndex === -1) {
-					setMessages((messages) => [
-						...messages,
-						{
-							id: message.id,
-							content: message.content,
-							user: message.user,
-							role: message.role,
-						},
-					]);
-				} else {
-					setMessages((messages) => {
-						return messages
-							.slice(0, foundIndex)
-							.concat({
-								id: message.id,
-								content: message.content,
-								user: message.user,
-								role: message.role,
-							})
-							.concat(messages.slice(foundIndex + 1));
-					});
-				}
-			} else if (message.type === "update") {
-				setMessages((messages) =>
-					messages.map((m) =>
-						m.id === message.id
-							? {
-									id: message.id,
-									content: message.content,
-									user: message.user,
-									role: message.role,
-								}
-							: m,
-					),
-				);
-			} else {
+				setMessages((prev) => [...prev, message]);
+			} else if (message.type === "all") {
 				setMessages(message.messages);
 			}
 		},
@@ -70,7 +34,7 @@ function App() {
 
 	if (showPopup) {
 		return (
-			<div className="popup">
+			<div style={{ textAlign: "center", marginTop: "50px" }}>
 				<h2>Your Name</h2>
 				<input
 					type="text"
@@ -80,9 +44,7 @@ function App() {
 				/>
 				<button
 					onClick={() => {
-						if (name.trim()) {
-							setShowPopup(false);
-						}
+						if (name.trim()) setShowPopup(false);
 					}}
 				>
 					Start Chat
@@ -92,31 +54,31 @@ function App() {
 	}
 
 	return (
-		<div className="chat">
-			<div>
-				Room: {room} | Hello, {name}!
-			</div>
-			<div>
-				{messages.map((message) => (
-					<div key={message.id}>
-						<strong>{message.user}:</strong> {message.content}
+		<div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+			<p>
+				Room: {room} | User: {name}
+			</p>
+			<div style={{ border: "1px solid #ccc", height: "300px", overflowY: "auto", padding: "10px" }}>
+				{messages.map((m) => (
+					<div key={m.id}>
+						<strong>{m.user}:</strong> {m.content}
 					</div>
 				))}
 			</div>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					const content = e.currentTarget.elements.namedItem("content") as HTMLInputElement;
-					if (!content.value.trim()) return;
-					const chatMessage: ChatMessage = {
+					const input = e.currentTarget.elements.namedItem("content") as HTMLInputElement;
+					if (!input.value.trim()) return;
+					const msg: ChatMessage = {
 						id: nanoid(8),
-						content: content.value,
+						content: input.value,
 						user: name,
 						role: "user",
 					};
-					setMessages((messages) => [...messages, chatMessage]);
-					socket.send(JSON.stringify({ type: "add", ...chatMessage }));
-					content.value = "";
+					setMessages((prev) => [...prev, msg]);
+					socket.send(JSON.stringify({ type: "add", ...msg }));
+					input.value = "";
 				}}
 			>
 				<input type="text" name="content" placeholder="Type a message..." />
