@@ -6,7 +6,7 @@ import {
 } from "partyserver";
 
 import type { ChatMessage, Message } from "../shared";
-import authHandler from "./authorize";
+import authHandler from "./auth"; // ⬅️ TAMBAH INI (nanti auth.ts di file ke-3)
 
 export class Chat extends Server<Env> {
 	static options = { hibernate: true };
@@ -72,9 +72,10 @@ export class Chat extends Server<Env> {
 
 export default {
 	async fetch(request, env) {
-		const url = new URL(request.url);
+		const url = new URL(request.url); // ⬅️ TAMBAH INI
 
-		if (url.pathname.startsWith("/auth")) {
+		// ⬅️ TAMBAH ROUTING INI
+		if (url.pathname === "/authorize" || url.pathname === "/callback" || url.pathname === "/") {
 			return authHandler.fetch(request, env);
 		}
 
