@@ -81,16 +81,19 @@ function App() {
 					e.preventDefault();
 					
 					if (!isNameSet) {
+						// ⬅️ MODE SET NAMA: HANYA SET STATE, TIDAK KIRIM PESAN
 						const nameInput = e.currentTarget.elements.namedItem(
 							"nameInput",
 						) as HTMLInputElement;
 						if (nameInput.value.trim()) {
 							setName(nameInput.value.trim());
 							setIsNameSet(true);
+							nameInput.value = ""; // clear input
 						}
-						return; // ⬅️ TAMBAHKAN INI - LANGSUNG RETURN, TIDAK KIRIM PESAN
+						return; // ⬅️ LANGSUNG RETURN, TIDAK ADA SET MESSAGES
 					}
 
+					// ⬅️ MODE CHAT: KIRIM PESAN
 					const content = e.currentTarget.elements.namedItem(
 						"content",
 					) as HTMLInputElement;
