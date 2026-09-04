@@ -13,21 +13,14 @@ import { nanoid } from "nanoid";
 import { type ChatMessage, type Message } from "../shared";
 
 function App() {
-	// ============================================================
-	// STATE: NAMA + POPUP
-	// ============================================================
 	const [name, setName] = useState("");
-	const [showPopup, setShowPopup] = useState(true);
+	const [isNameSet, setIsNameSet] = useState(false);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const { room } = useParams();
 
-	// ============================================================
-	// WEBSOCKET (cuma jalan kalo popup udah ditutup)
-	// ============================================================
 	const socket = usePartySocket({
 		party: "chat",
 		room,
-		enabled: !showPopup,
 		onMessage: (evt) => {
 			const message = JSON.parse(evt.data as string) as Message;
 			if (message.type === "add") {
@@ -74,65 +67,35 @@ function App() {
 		},
 	});
 
-	// ============================================================
-	// FORM "YOUR NAME" (MUNCUL DULUAN)
-	// ============================================================
-	if (showPopup) {
-		return (
-			<div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-				<div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
-					<h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
-						Your Name
-					</h2>
-					<input
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						placeholder="Enter your name..."
-						className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-					/>
-					<button
-						onClick={() => {
-							if (name.trim()) {
-								setShowPopup(false);
-							}
-						}}
-						className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
-					>
-						Start Chat
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	// ============================================================
-	// CHAT (MUNCUL SETELAH POPUP DITUTUP)
-	// ============================================================
 	return (
-		<div className="flex flex-col h-screen max-w-4xl mx-auto p-4">
-			<div className="flex justify-between items-center mb-4">
-				<h1 className="text-xl font-bold">Chat</h1>
-				<span className="text-sm text-gray-500 dark:text-gray-400">
-					Hello, {name}!
-				</span>
-			</div>
-
-			<div className="flex-1 overflow-y-auto space-y-2 mb-4 p-2 border border-gray-200 dark:border-gray-700 rounded-lg">
-				{messages.map((message) => (
-					<div key={message.id} className="flex justify-between items-start p-2 bg-gray-50 dark:bg-gray-800 rounded">
-						<span className="font-bold text-blue-600 dark:text-blue-400">{message.user}</span>
-						<span className="text-gray-800 dark:text-gray-200 flex-1 ml-4">{message.content}</span>
-					</div>
-				))}
-			</div>
-
+		<div className="chat container">
+			{messages.map((message) => (
+				<div key={message.id} className="row message">
+					<div className="two columns user">{message.user}</div>
+					<div className="ten columns">{message.content}</div>
+				</div>
+			))}
 			<form
-				className="flex gap-2"
+				className="row"
 				onSubmit={(e) => {
 					e.preventDefault();
-					const content = e.currentTarget.elements.namedItem("content") as HTMLInputElement;
+					
+					if (!isNameSet) {
+						const nameInput = e.currentTarget.elements.namedItem(
+							"nameInput",
+						) as HTMLInputElement;
+						if (nameInput.value.trim()) {
+							setName(nameInput.value.trim());
+							setIsNameSet(true);
+						}
+						return;
+					}
+
+					const content = e.currentTarget.elements.namedItem(
+						"content",
+					) as HTMLInputElement;
 					if (!content.value.trim()) return;
+					
 					const chatMessage: ChatMessage = {
 						id: nanoid(8),
 						content: content.value,
@@ -140,23 +103,42 @@ function App() {
 						role: "user",
 					};
 					setMessages((messages) => [...messages, chatMessage]);
-					socket.send(JSON.stringify({ type: "add", ...chatMessage } satisfies Message));
+					socket.send(
+						JSON.stringify({
+							type: "add",
+							...chatMessage,
+						} satisfies Message),
+					);
 					content.value = "";
 				}}
 			>
-				<input
-					type="text"
-					name="content"
-					placeholder={`Hello ${name}! Type a message...`}
-					className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-					autoComplete="off"
-				/>
-				<button
-					type="submit"
-					className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
-				>
-					Send
-				</button>
+				{!isNameSet ? (
+					<>
+						<input
+							type="text"
+							name="nameInput"
+							className="ten columns my-input-text"
+							placeholder="Enter your name..."
+							autoComplete="off"
+						/>
+						<button type="submit" className="send-message two columns">
+							Send
+						</button>
+					</>
+				) : (
+					<>
+						<input
+							type="text"
+							name="content"
+							className="ten columns my-input-text"
+							placeholder={`Hello ${name}! Type a message...`}
+							autoComplete="off"
+						/>
+						<button type="submit" className="send-message two columns">
+							Send
+						</button>
+					</>
+				)}
 			</form>
 		</div>
 	);
