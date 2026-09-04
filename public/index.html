@@ -1,132 +1,97 @@
 <!doctype html>
 <html lang="en" data-theme="light">
-<head>
-    <meta charset="utf-8" />
-    <title>READTalk Messenger</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/skeleton.css" />
-    <link rel="stylesheet" href="global.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
-    <link rel="icon" type="image/ico" href="favicon.ico" />
-    <script src="/dist/index.js" type="module"></script>
-    <style>
-        @media (max-width: 550px) {
-            .one-third.column {
-                position: fixed !important;
-                top: 0;
-                left: 0;
-                width: 100% !important;
-                height: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                background: var(--bg);
-                z-index: 1000;
-                overflow-y: auto;
-            }
-            .two-thirds.column {
-                width: 100% !important;
-                margin-left: 0 !important;
-                padding: 0 !important;
-            }
-            .container {
-                width: 100% !important;
-                padding: 0 !important;
-            }
-            .bottom-nav {
-                display: flex !important;
-            }
-            .floating-btn {
-                display: flex !important;
-            }
-            .desktop-only {
-                display: none !important;
-            }
-        }
-        @media (min-width: 551px) {
-            .one-third.column {
-                position: relative !important;
-                width: 35% !important;
-                margin-top: 0 !important;
-                height: 100vh !important;
-                overflow-y: auto;
-                display: block !important;
-            }
-            .two-thirds.column {
-                width: 65% !important;
-            }
-            .bottom-nav {
-                display: none !important;
-            }
-            .floating-btn {
-                display: none !important;
-            }
-            .desktop-only {
-                display: flex !important;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container" style="width:95%; height:100%">
-        <div class="row" style="height:100%">
-            <!-- SIDEBAR -->
-            <div class="one-third column">
-                <div class="sidebar-header">
-                    <h5>READTalk</h5>
-                    <div class="sidebar-actions">
-                        <button class="icon-btn" id="searchBtn"><i class="ph ph-magnifying-glass"></i></button>
-                        <button class="icon-btn desktop-only" id="newChatBtn"><i class="ph ph-plus"></i></button>
-                        <button class="icon-btn" id="menuToggle"><i class="ph ph-dots-three-vertical"></i></button>
-                    </div>
-                </div>
-                <div class="profile-card">
-                    <div class="avatar" id="profileAvatar">A</div>
-                    <div class="profile-info">
-                        <span class="profile-name" id="profileName">Your Name</span>
-                        <span class="profile-status">Online</span>
-                    </div>
-                </div>
-                <div class="chat-list" id="chatList">
-                    <div class="chat-item">
-                        <div class="chat-avatar">D</div>
-                        <div class="chat-info">
-                            <span class="chat-name">Derry</span>
-                            <span class="chat-preview">Derry Message</span>
-                        </div>
-                        <span class="chat-time">10:01</span>
-                    </div>
-                    <div class="chat-item">
-                        <div class="chat-avatar">B</div>
-                        <div class="chat-info">
-                            <span class="chat-name">Budi</span>
-                            <span class="chat-preview">Ok, nanti kita bahas</span>
-                        </div>
-                        <span class="chat-time">09:30</span>
-                    </div>
-                </div>
-                <!-- BOTTOM NAV (HP) -->
-                <div class="bottom-nav">
-                    <button class="nav-item active"><i class="ph ph-chat-circle"></i><span>Chat</span></button>
-                    <button class="nav-item"><i class="ph ph-arrows-clockwise"></i><span>Pembaruan</span></button>
-                    <button class="nav-item"><i class="ph ph-users"></i><span>Komunitas</span></button>
-                    <button class="nav-item"><i class="ph ph-phone"></i><span>Panggilan</span></button>
-                </div>
-                <!-- FLOATING + (HP) -->
-                <button class="floating-btn" id="newChatFloat"><i class="ph ph-plus"></i></button>
-            </div>
-            <!-- CHAT AREA -->
-            <div class="two-thirds column" id="root"></div>
-        </div>
-    </div>
-    <script>
-        const root = document.documentElement;
-        const savedTheme = localStorage.getItem("theme") || "light";
-        root.dataset.theme = savedTheme;
-        document.getElementById("menuToggle")?.addEventListener("click", () => alert("Menu"));
-        document.getElementById("searchBtn")?.addEventListener("click", () => alert("Search"));
-        document.getElementById("newChatBtn")?.addEventListener("click", () => alert("New Chat"));
-        document.getElementById("newChatFloat")?.addEventListener("click", () => alert("New Chat"));
-    </script>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<title>READTalk Messenger</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="css/skeleton.css" />
+		<link rel="stylesheet" href="global.css" />
+
+		<link rel="icon" type="image/ico" href="favicon.ico" />
+		<script src="/dist/index.js" type="module"></script>
+
+		<!-- ===== INLINE STYLE (RESPONSIF) ===== -->
+		<style>
+			/* Desktop: sidebar di kiri, chat di kanan (seperti sekarang) */
+			@media (min-width: 551px) {
+				.one-third.column {
+					width: 30.6666666667% !important;
+					margin-top: 25% !important;
+				}
+				.two-thirds.column {
+					width: 65.3333333333% !important;
+				}
+				.container {
+					width: 95% !important;
+					padding: 0 20px !important;
+				}
+			}
+
+			/* Smartphone: sidebar fullscreen (nutupin chat) */
+			@media (max-width: 550px) {
+				.one-third.column {
+					position: fixed !important;
+					top: 0;
+					left: 0;
+					width: 100% !important;
+					height: 100% !important;
+					margin: 0 !important;
+					padding: 40px 20px !important;
+					z-index: 1000;
+					display: flex !important;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+				}
+				.two-thirds.column {
+					width: 100% !important;
+					margin-left: 0 !important;
+				}
+				.container {
+					width: 100% !important;
+					padding: 0 !important;
+				}
+				#root {
+					padding: 0 10px;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container" style="width:95%; height:100%">
+			<div class="row" style="height:100%">
+				<div class="one-third column" style="margin-top:25%">
+					<h4><b>READT</b>alk  Messenger</h4>
+					<p>by SOEPARNO Technology</p>
+
+					<button id="themeToggle" class="button" style="margin-top:20px">
+						🌙 Dark
+					</button>
+				</div>
+
+				<div class="two-thirds column" id="root"></div>
+			</div>
+		</div>
+
+		<script>
+			const root = document.documentElement
+			const savedTheme = localStorage.getItem("theme") || "light"
+			root.dataset.theme = savedTheme
+
+			const btn = document.getElementById("themeToggle")
+			if (btn) {
+				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark"
+				btn.onclick = () => {
+					const next = root.dataset.theme === "dark" ? "light" : "dark"
+					root.dataset.theme = next
+					localStorage.setItem("theme", next)
+					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark"
+				}
+			}
+		</script>
+	</body>
 </html>
