@@ -88,7 +88,7 @@ function App() {
 							setName(nameInput.value.trim());
 							setIsNameSet(true);
 						}
-						return;
+						return; // ⬅️ TAMBAHKAN INI - LANGSUNG RETURN, TIDAK KIRIM PESAN
 					}
 
 					const content = e.currentTarget.elements.namedItem(
@@ -131,7 +131,7 @@ function App() {
 							type="text"
 							name="content"
 							className="ten columns my-input-text"
-							placeholder={`Hi ${name}! Type a message...`}
+							placeholder={`Hello ${name}! Type a message...`}
 							autoComplete="off"
 						/>
 						<button type="submit" className="send-message two columns">
