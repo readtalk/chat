@@ -17,9 +17,9 @@
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
 				<div class="one-third column" style="margin-top:25%">
-					<h4><b>READT</b>alk</h4>					
-					<button id="themeToggle" class="button" style="margin-top:20px">
-						🌙
+					<h4><b>READT</b>alk Messenger</h4>					
+					<button id="themeToggle" class="button" style="margin-top:10px">
+						🌙 DARK					
 					</button>
 				</div>
 
@@ -34,12 +34,12 @@
 
 			const btn = document.getElementById("themeToggle")
 			if (btn) {
-				btn.textContent = savedTheme === "dark" ? "☀️" : "🌙"
+				btn.textContent = savedTheme === "dark" ? "☀️ LIGHT" : "🌙 DARK"
 				btn.onclick = () => {
 					const next = root.dataset.theme === "dark" ? "light" : "dark"
 					root.dataset.theme = next
 					localStorage.setItem("theme", next)
-					btn.textContent = next === "dark" ? "☀️" : "🌙"
+					btn.textContent = next === "dark" ? "☀️ LIGHT" : "🌙 DARK"
 				}
 			}
 		</script>
