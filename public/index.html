@@ -11,43 +11,20 @@
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
-
-		<style>
-			@media (max-width: 550px) {
-				.one-third.column {
-					position: fixed !important;
-					top: 0;
-					left: 0;
-					width: 100% !important;
-					height: 100% !important;
-					margin: 0 !important;
-					padding: 40px 20px !important;
-					background: var(--bg-color, #fff);
-					z-index: 1000;
-					display: flex !important;
-					flex-direction: column;
-					align-items: center;
-					justify-content: center;
-					text-align: center;
-				}
-				.two-thirds.column { width: 100% !important; margin-left: 0 !important; }
-				.container { width: 100% !important; padding: 0 !important; }
-			}
-			@media (min-width: 551px) {
-				.one-third.column { position: relative !important; width: 30.6666666667% !important; margin-top: 25% !important; display: block !important; }
-				.two-thirds.column { width: 65.3333333333% !important; }
-			}
-		</style>
 	</head>
 
 	<body>
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
-				<div class="one-third column" id="sidebar" style="margin-top:25%">
-					<h4><b>READT</b>alk Messenger</h4>
+				<div class="one-third column" style="margin-top:25%">
+					<h4><b>READT</b>alk  Messenger</h4>
 					<p>by SOEPARNO Technology</p>
-					<button id="themeToggle" class="button" style="margin-top:20px">🌙 Dark</button>
+
+					<button id="themeToggle" class="button" style="margin-top:20px">
+						🌙 Dark
+					</button>
 				</div>
+
 				<div class="two-thirds column" id="root"></div>
 			</div>
 		</div>
