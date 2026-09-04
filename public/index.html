@@ -11,6 +11,51 @@
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
+
+		<style>
+			/* SIDEBAR BACKGROUND DOANG */
+			.one-third.column {
+				background: #1a1a1a !important;
+			}
+			[data-theme="dark"] .one-third.column {
+				background: #e0e0e0 !important;
+			}
+
+			/* BIAR TEKSNYA KELIHATAN */
+			[data-theme="light"] .one-third.column * {
+				color: #ffffff !important;
+			}
+			[data-theme="dark"] .one-third.column * {
+				color: #000000 !important;
+			}
+
+			/* MOBILE FULLSCREEN */
+			@media (max-width: 550px) {
+				.one-third.column {
+					position: fixed !important;
+					top: 0;
+					left: 0;
+					width: 100% !important;
+					height: 100% !important;
+					margin: 0 !important;
+					padding: 40px 20px !important;
+					z-index: 1000;
+					display: flex !important;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+				}
+				.two-thirds.column {
+					width: 100% !important;
+					margin-left: 0 !important;
+				}
+				.container {
+					width: 100% !important;
+					padding: 0 !important;
+				}
+			}
+		</style>
 	</head>
 
 	<body>
@@ -19,12 +64,8 @@
 				<div class="one-third column" style="margin-top:25%">
 					<h4><b>READT</b>alk  Messenger</h4>
 					<p>by SOEPARNO Technology</p>
-
-					<button id="themeToggle" class="button" style="margin-top:20px">
-						🌙 Dark
-					</button>
+					<button id="themeToggle" class="button" style="margin-top:20px">🌙 Dark</button>
 				</div>
-
 				<div class="two-thirds column" id="root"></div>
 			</div>
 		</div>
