@@ -11,21 +11,135 @@
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
-		
+
 		<style>
+			/* ============================================================
+			   MOBILE: SIDEBAR SLIDE (BUKAN NUMPUK)
+			   ============================================================ */
 			@media (max-width: 550px) {
-				.one-third.column { display: none !important; }
-				.two-thirds.column { width: 100% !important; margin-left: 0 !important; }
-				.container { width: 100% !important; padding: 0 !important; }
+				/* Tombol hamburger */
+				.menu-toggle {
+					display: flex !important;
+					position: fixed;
+					top: 12px;
+					left: 12px;
+					z-index: 1001;
+					font-size: 24px;
+					background: none;
+					border: none;
+					cursor: pointer;
+					color: inherit;
+					padding: 5px;
+				}
+
+				/* Sidebar slide dari kiri */
+				.one-third.column {
+					position: fixed !important;
+					top: 0;
+					left: -280px;
+					width: 280px !important;
+					height: 100% !important;
+					margin: 0 !important;
+					padding: 20px !important;
+					background: var(--bg-color, #fff);
+					z-index: 1000;
+					transition: left 0.3s ease;
+					box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+					overflow-y: auto;
+				}
+
+				.one-third.column.open {
+					left: 0;
+				}
+
+				/* Overlay gelap */
+				.sidebar-overlay {
+					display: none;
+					position: fixed;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: rgba(0,0,0,0.5);
+					z-index: 999;
+				}
+
+				.sidebar-overlay.active {
+					display: block;
+				}
+
+				/* Chat full */
+				.two-thirds.column {
+					width: 100% !important;
+					margin-left: 0 !important;
+					padding: 0 !important;
+				}
+
+				.container {
+					width: 100% !important;
+					padding: 0 !important;
+					margin: 0 !important;
+				}
+
+				#root {
+					padding: 0 10px;
+					margin-top: 50px;
+				}
+
+				/* Close button di sidebar */
+				.sidebar-close {
+					position: absolute;
+					top: 10px;
+					right: 10px;
+					font-size: 24px;
+					background: none;
+					border: none;
+					cursor: pointer;
+					color: inherit;
+				}
+			}
+
+			/* Desktop: tombol mobile sembunyi */
+			@media (min-width: 551px) {
+				.menu-toggle,
+				.sidebar-overlay,
+				.sidebar-close {
+					display: none !important;
+				}
+
+				.one-third.column {
+					position: relative !important;
+					left: auto !important;
+					width: 30.6666666667% !important;
+					margin-top: 25% !important;
+					box-shadow: none !important;
+					padding: 0 !important;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
+		<!-- ===== MOBILE: Tombol hamburger ===== -->
+		<button class="menu-toggle" onclick="toggleSidebar()">
+			☰
+		</button>
+
+		<!-- ===== MOBILE: Overlay ===== -->
+		<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+		<!-- ===== MAIN LAYOUT ===== -->
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
-				<div class="one-third column" style="margin-top:25%">
-					<h4><b>READT</b>alk  Messenger</h4>
+
+				<!-- ===== SIDEBAR ===== -->
+				<div class="one-third column" id="sidebar" style="margin-top:25%">
+					<!-- Close button mobile -->
+					<button class="sidebar-close" onclick="toggleSidebar()">
+						✕
+					</button>
+
+					<h4><b>READT</b>alk Messenger</h4>
 					<p>by SOEPARNO Technology</p>
 
 					<button id="themeToggle" class="button" style="margin-top:20px">
@@ -33,24 +147,35 @@
 					</button>
 				</div>
 
+				<!-- ===== CHAT AREA ===== -->
 				<div class="two-thirds column" id="root"></div>
+
 			</div>
 		</div>
 
 		<script>
-			const root = document.documentElement
-			const savedTheme = localStorage.getItem("theme") || "light"
-			root.dataset.theme = savedTheme
+			// ===== TOGGLE SIDEBAR =====
+			function toggleSidebar() {
+				const sidebar = document.getElementById('sidebar');
+				const overlay = document.querySelector('.sidebar-overlay');
+				sidebar.classList.toggle('open');
+				overlay.classList.toggle('active');
+			}
 
-			const btn = document.getElementById("themeToggle")
+			// ===== THEME TOGGLE =====
+			const root = document.documentElement;
+			const savedTheme = localStorage.getItem("theme") || "light";
+			root.dataset.theme = savedTheme;
+
+			const btn = document.getElementById("themeToggle");
 			if (btn) {
-				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark"
+				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark";
 				btn.onclick = () => {
-					const next = root.dataset.theme === "dark" ? "light" : "dark"
-					root.dataset.theme = next
-					localStorage.setItem("theme", next)
-					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark"
-				}
+					const next = root.dataset.theme === "dark" ? "light" : "dark";
+					root.dataset.theme = next;
+					localStorage.setItem("theme", next);
+					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark";
+				};
 			}
 		</script>
 	</body>
