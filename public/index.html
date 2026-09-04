@@ -13,17 +13,24 @@
 		<script src="/dist/index.js" type="module"></script>
 
 		<style>
-			/* SIDEBAR: border tipis aja biar keliatan batasnya */
+			/* SIDEBAR BACKGROUND PUTIH TULANG + BORDER TIPIS */
 			.one-third.column {
-				border-right: 1px solid #ddd !important;
-				box-shadow: 2px 0 8px rgba(0,0,0,0.05) !important;
+				background: #f5f5f0 !important;
+				border-right: 1px solid #e0e0d8 !important;
 			}
 
+			/* TEMA DARK: SIDEBAR TETAP PUTIH TULANG */
 			[data-theme="dark"] .one-third.column {
-				border-right: 1px solid #444 !important;
-				box-shadow: 2px 0 8px rgba(255,255,255,0.05) !important;
+				background: #f5f5f0 !important;
+				border-right: 1px solid #e0e0d8 !important;
 			}
 
+			/* TEKS DI SIDEBAR TETAP TERBACA */
+			[data-theme="dark"] .one-third.column * {
+				color: #1a1a1a !important;
+			}
+
+			/* MOBILE: SIDEBAR FULLSCREEN (TETAP PUTIH TULANG) */
 			@media (max-width: 550px) {
 				.one-third.column {
 					position: fixed !important;
@@ -40,7 +47,6 @@
 					justify-content: center;
 					text-align: center;
 					border-right: none !important;
-					box-shadow: none !important;
 				}
 				.two-thirds.column {
 					width: 100% !important;
@@ -51,6 +57,8 @@
 					padding: 0 !important;
 				}
 			}
+
+			/* DESKTOP: SIDEBAR TETAP DI KIRI */
 			@media (min-width: 551px) {
 				.one-third.column {
 					position: relative !important;
@@ -69,10 +77,14 @@
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
 				<div class="one-third column" style="margin-top:25%">
-					<h4><b>READT</b>alk Messenger</h4>
+					<h4><b>READT</b>alk  Messenger</h4>
 					<p>by SOEPARNO Technology</p>
-					<button id="themeToggle" class="button" style="margin-top:20px">🌙 Dark</button>
+
+					<button id="themeToggle" class="button" style="margin-top:20px">
+						🌙 Dark
+					</button>
 				</div>
+
 				<div class="two-thirds column" id="root"></div>
 			</div>
 		</div>
