@@ -1,204 +1,99 @@
 <!doctype html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="utf-8" />
-  <title>READTalk Messenger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<head>
+		<meta charset="utf-8" />
+		<title>READTalk Messenger</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="stylesheet" href="css/normalize.css" />
-  <link rel="stylesheet" href="css/skeleton.css" />
-  <link rel="stylesheet" href="global.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="css/skeleton.css" />
+		<link rel="stylesheet" href="global.css" />
 
-  <link rel="icon" type="image/ico" href="favicon.ico" />
-  <script src="/dist/index.js" type="module"></script>
+		<link rel="icon" type="image/ico" href="favicon.ico" />
+		<script src="/dist/index.js" type="module"></script>
 
-  <style>
-    /* ============================================================
-       SMARTPHONE: SIDEBAR FULLSCREEN + TOMBOL KHUSUS
-       ============================================================ */
-    @media (max-width: 550px) {
-      /* Sidebar fullscreen */
-      .one-third.column {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100% !important;
-        height: 100% !important;
-        margin: 0 !important;
-        padding: 40px 20px !important;
-        background: var(--bg-color, #fff);
-        z-index: 1000;
-        display: flex !important;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-      }
+		<style>
+			/* ============================================================
+			   SMARTPHONE: SIDEBAR FULLSCREEN
+			   ============================================================ */
+			@media (max-width: 550px) {
+				.one-third.column {
+					position: fixed !important;
+					top: 0;
+					left: 0;
+					width: 100% !important;
+					height: 100% !important;
+					margin: 0 !important;
+					padding: 40px 20px !important;
+					background: var(--bg-color, #fff);
+					z-index: 1000;
+					display: flex !important;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+				}
 
-      /* Sembunyiin sidebar setelah chat dimulai */
-      .one-third.column.hidden {
-        display: none !important;
-      }
+				.two-thirds.column {
+					width: 100% !important;
+					margin-left: 0 !important;
+				}
 
-      /* Chat full */
-      .two-thirds.column {
-        width: 100% !important;
-        margin-left: 0 !important;
-      }
+				.container {
+					width: 100% !important;
+					padding: 0 !important;
+				}
+			}
 
-      .container {
-        width: 100% !important;
-        padding: 0 !important;
-      }
+			/* ============================================================
+			   DESKTOP: SIDEBAR KIRI (TETAP)
+			   ============================================================ */
+			@media (min-width: 551px) {
+				.one-third.column {
+					position: relative !important;
+					width: 30.6666666667% !important;
+					margin-top: 25% !important;
+					display: block !important;
+				}
 
-      /* ===== TOMBOL PANAH KEMBALI (hanya di HP, di roomchat) ===== */
-      .back-button {
-        display: none !important;
-        position: fixed;
-        top: 12px;
-        left: 12px;
-        z-index: 1001;
-        font-size: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: inherit;
-        padding: 5px;
-      }
+				.two-thirds.column {
+					width: 65.3333333333% !important;
+				}
+			}
+		</style>
+	</head>
 
-      .back-button.show {
-        display: flex !important;
-      }
+	<body>
+		<div class="container" style="width:95%; height:100%">
+			<div class="row" style="height:100%">
+				<div class="one-third column" id="sidebar" style="margin-top:25%">
+					<h4><b>READT</b>alk Messenger</h4>
+					<p>by SOEPARNO Technology</p>
 
-      /* ===== TOMBOL 3 TITIK (di sidebar, desktop + HP) ===== */
-      .menu-dots {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: inherit;
-        padding: 5px;
-      }
-    }
+					<button id="themeToggle" class="button" style="margin-top:20px">
+						🌙 Dark
+					</button>
+				</div>
 
-    /* ============================================================
-       DESKTOP: SIDEBAR KIRI, CHAT KANAN
-       ============================================================ */
-    @media (min-width: 551px) {
-      .one-third.column {
-        position: relative !important;
-        width: 30.6666666667% !important;
-        margin-top: 25% !important;
-        display: block !important;
-      }
+				<div class="two-thirds column" id="root"></div>
+			</div>
+		</div>
 
-      .two-thirds.column {
-        width: 65.3333333333% !important;
-      }
+		<script>
+			const root = document.documentElement
+			const savedTheme = localStorage.getItem("theme") || "light"
+			root.dataset.theme = savedTheme
 
-      /* Tombol 3 titik di sidebar (desktop) */
-      .menu-dots {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: inherit;
-        padding: 5px;
-      }
-
-      /* Tombol panah kembali (sembunyi di desktop) */
-      .back-button {
-        display: none !important;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <!-- ===== TOMBOL PANAH KEMBALI (HP, di roomchat) ===== -->
-  <button class="back-button" onclick="goBack()">
-    <i class="ph ph-arrow-left"></i>
-  </button>
-
-  <!-- ===== MAIN LAYOUT ===== -->
-  <div class="container" style="width:95%; height:100%">
-    <div class="row" style="height:100%">
-
-      <!-- ===== SIDEBAR ===== -->
-      <div class="one-third column" id="sidebar" style="margin-top:25%">
-        <!-- Tombol 3 titik (ada di desktop + HP) -->
-        <button class="menu-dots" onclick="toggleMenu()">
-          <i class="ph ph-dots-three-vertical"></i>
-        </button>
-
-        <h4><b>READT</b>alk Messenger</h4>
-        <p>by SOEPARNO Technology</p>
-
-        <!-- Nama user -->
-        <div id="user-profile">
-          <div class="avatar">A</div>
-          <span class="display-name">Your Name</span>
-        </div>
-
-        <button id="startChatBtn" class="button-primary" style="margin-top:20px; width:100%;">
-          Start Chat →
-        </button>
-
-        <button id="themeToggle" class="button" style="margin-top:10px; width:100%;">
-          🌙 Dark
-        </button>
-      </div>
-
-      <!-- ===== CHAT AREA ===== -->
-      <div class="two-thirds column" id="root"></div>
-
-    </div>
-  </div>
-
-  <script>
-    // ===== START CHAT (sembunyiin sidebar di HP, munculin tombol kembali) =====
-    document.getElementById('startChatBtn')?.addEventListener('click', function() {
-      if (window.innerWidth <= 550) {
-        document.getElementById('sidebar').classList.add('hidden');
-        document.querySelector('.back-button').classList.add('show');
-      }
-    });
-
-    // ===== TOMBOL PANAH KEMBALI =====
-    function goBack() {
-      if (window.innerWidth <= 550) {
-        document.getElementById('sidebar').classList.remove('hidden');
-        document.querySelector('.back-button').classList.remove('show');
-      }
-    }
-
-    // ===== TOMBOL 3 TITIK =====
-    function toggleMenu() {
-      alert('Menu options: Settings, Profile, Theme, Logout');
-    }
-
-    // ===== THEME TOGGLE =====
-    const root = document.documentElement;
-    const savedTheme = localStorage.getItem("theme") || "light";
-    root.dataset.theme = savedTheme;
-
-    const btn = document.getElementById("themeToggle");
-    if (btn) {
-      btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark";
-      btn.onclick = () => {
-        const next = root.dataset.theme === "dark" ? "light" : "dark";
-        root.dataset.theme = next;
-        localStorage.setItem("theme", next);
-        btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark";
-      };
-    }
-  </script>
-</body>
+			const btn = document.getElementById("themeToggle")
+			if (btn) {
+				btn.textContent = savedTheme === "dark" ? "☀️ Light" : "🌙 Dark"
+				btn.onclick = () => {
+					const next = root.dataset.theme === "dark" ? "light" : "dark"
+					root.dataset.theme = next
+					localStorage.setItem("theme", next)
+					btn.textContent = next === "dark" ? "☀️ Light" : "🌙 Dark"
+				}
+			}
+		</script>
+	</body>
 </html>
