@@ -8,21 +8,22 @@
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/skeleton.css" />
 		<link rel="stylesheet" href="global.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
 
 		<style>
 			/* ============================================================
-			   MOBILE: SIDEBAR SLIDE (BUKAN NUMPUK)
+			   MOBILE: CHAT FULL + TOMBOL 3 TITIK DI KANAN
 			   ============================================================ */
 			@media (max-width: 550px) {
-				/* Tombol hamburger */
-				.menu-toggle {
+				/* Tombol 3 titik (kanan atas) */
+				.menu-dots {
 					display: flex !important;
 					position: fixed;
 					top: 12px;
-					left: 12px;
+					right: 12px;
 					z-index: 1001;
 					font-size: 24px;
 					background: none;
@@ -32,40 +33,9 @@
 					padding: 5px;
 				}
 
-				/* Sidebar slide dari kiri */
+				/* Sembunyikan sidebar */
 				.one-third.column {
-					position: fixed !important;
-					top: 0;
-					left: -280px;
-					width: 280px !important;
-					height: 100% !important;
-					margin: 0 !important;
-					padding: 20px !important;
-					background: var(--bg-color, #fff);
-					z-index: 1000;
-					transition: left 0.3s ease;
-					box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-					overflow-y: auto;
-				}
-
-				.one-third.column.open {
-					left: 0;
-				}
-
-				/* Overlay gelap */
-				.sidebar-overlay {
-					display: none;
-					position: fixed;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background: rgba(0,0,0,0.5);
-					z-index: 999;
-				}
-
-				.sidebar-overlay.active {
-					display: block;
+					display: none !important;
 				}
 
 				/* Chat full */
@@ -85,63 +55,43 @@
 					padding: 0 10px;
 					margin-top: 50px;
 				}
-
-				/* Close button di sidebar */
-				.sidebar-close {
-					position: absolute;
-					top: 10px;
-					right: 10px;
-					font-size: 24px;
-					background: none;
-					border: none;
-					cursor: pointer;
-					color: inherit;
-				}
 			}
 
-			/* Desktop: tombol mobile sembunyi */
+			/* ============================================================
+			   DESKTOP: tombol mobile sembunyi, sidebar muncul
+			   ============================================================ */
 			@media (min-width: 551px) {
-				.menu-toggle,
-				.sidebar-overlay,
-				.sidebar-close {
+				.menu-dots {
 					display: none !important;
 				}
 
 				.one-third.column {
-					position: relative !important;
-					left: auto !important;
+					display: block !important;
 					width: 30.6666666667% !important;
 					margin-top: 25% !important;
-					box-shadow: none !important;
-					padding: 0 !important;
+				}
+
+				.two-thirds.column {
+					width: 65.3333333333% !important;
 				}
 			}
 		</style>
 	</head>
 
 	<body>
-		<!-- ===== MOBILE: Tombol hamburger ===== -->
-		<button class="menu-toggle" onclick="toggleSidebar()">
-			☰
+		<!-- ===== MOBILE: Tombol 3 titik (kanan) ===== -->
+		<button class="menu-dots" onclick="toggleMenu()">
+			<i class="ph ph-dots-three-vertical"></i>
 		</button>
-
-		<!-- ===== MOBILE: Overlay ===== -->
-		<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 		<!-- ===== MAIN LAYOUT ===== -->
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
 
-				<!-- ===== SIDEBAR ===== -->
-				<div class="one-third column" id="sidebar" style="margin-top:25%">
-					<!-- Close button mobile -->
-					<button class="sidebar-close" onclick="toggleSidebar()">
-						✕
-					</button>
-
+				<!-- ===== SIDEBAR (Desktop) ===== -->
+				<div class="one-third column" style="margin-top:25%">
 					<h4><b>READT</b>alk Messenger</h4>
 					<p>by SOEPARNO Technology</p>
-
 					<button id="themeToggle" class="button" style="margin-top:20px">
 						🌙 Dark
 					</button>
@@ -154,12 +104,9 @@
 		</div>
 
 		<script>
-			// ===== TOGGLE SIDEBAR =====
-			function toggleSidebar() {
-				const sidebar = document.getElementById('sidebar');
-				const overlay = document.querySelector('.sidebar-overlay');
-				sidebar.classList.toggle('open');
-				overlay.classList.toggle('active');
+			// ===== TOMBOL 3 TITIK =====
+			function toggleMenu() {
+				alert('Menu options: Settings, Profile, Theme, Logout');
 			}
 
 			// ===== THEME TOGGLE =====
