@@ -7,14 +7,12 @@ import {
 	Route,
 	Navigate,
 	useParams,
-	useNavigate,
 } from "react-router";
 import { nanoid } from "nanoid";
 
 import { type ChatMessage, type Message } from "../shared";
 
 function App() {
-	const navigate = useNavigate();
 	const [name, setName] = useState("");
 	const [isNameSet, setIsNameSet] = useState(false);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -23,7 +21,6 @@ function App() {
 	const socket = usePartySocket({
 		party: "chat",
 		room,
-		enabled: !!room && isNameSet, // Socket hanya aktif kalau room ada dan nama sudah set
 		onMessage: (evt) => {
 			const message = JSON.parse(evt.data as string) as Message;
 			if (message.type === "add") {
@@ -70,40 +67,6 @@ function App() {
 		},
 	});
 
-	// Kalau belum ada room dan nama belum set, tampilkan form nama
-	if (!room && !isNameSet) {
-		return (
-			<div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-				<div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
-					<h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
-						Your Name
-					</h2>
-					<input
-						type="text"
-						id="nameInput"
-						placeholder="Enter your name..."
-						className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-					/>
-					<button
-						onClick={() => {
-							const input = document.getElementById("nameInput") as HTMLInputElement;
-							if (input.value.trim()) {
-								const newRoomId = nanoid(); // ⬅️ NANOID DIBUAT DI SINI
-								navigate(`/${newRoomId}`);
-								setName(input.value.trim());
-								setIsNameSet(true);
-							}
-						}}
-						className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
-					>
-						Start Chat
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	// Kalau sudah di room, tampilkan chat seperti biasa
 	return (
 		<div className="chat container">
 			{messages.map((message) => (
@@ -116,6 +79,21 @@ function App() {
 				className="row"
 				onSubmit={(e) => {
 					e.preventDefault();
+					
+					if (!isNameSet) {
+						// ⬅️ MODE SET NAMA: HANYA SET STATE, TIDAK KIRIM PESAN
+						const nameInput = e.currentTarget.elements.namedItem(
+							"nameInput",
+						) as HTMLInputElement;
+						if (nameInput.value.trim()) {
+							setName(nameInput.value.trim());
+							setIsNameSet(true);
+							nameInput.value = ""; // clear input
+						}
+						return; // ⬅️ LANGSUNG RETURN, TIDAK ADA SET MESSAGES
+					}
+
+					// ⬅️ MODE CHAT: KIRIM PESAN
 					const content = e.currentTarget.elements.namedItem(
 						"content",
 					) as HTMLInputElement;
@@ -137,16 +115,33 @@ function App() {
 					content.value = "";
 				}}
 			>
-				<input
-					type="text"
-					name="content"
-					className="ten columns my-input-text"
-					placeholder={`Hello ${name}! Type a message...`}
-					autoComplete="off"
-				/>
-				<button type="submit" className="send-message two columns">
-					Send
-				</button>
+				{!isNameSet ? (
+					<>
+						<input
+							type="text"
+							name="nameInput"
+							className="ten columns my-input-text"
+							placeholder="Enter your name..."
+							autoComplete="off"
+						/>
+						<button type="submit" className="send-message two columns">
+							Submit
+						</button>
+					</>
+				) : (
+					<>
+						<input
+							type="text"
+							name="content"
+							className="ten columns my-input-text"
+							placeholder={`Hello ${name}! Type a message...`}
+							autoComplete="off"
+						/>
+						<button type="submit" className="send-message two columns">
+							Send
+						</button>
+					</>
+				)}
 			</form>
 		</div>
 	);
@@ -156,7 +151,7 @@ function App() {
 createRoot(document.getElementById("root")!).render(
 	<BrowserRouter>
 		<Routes>
-			<Route path="/" element={<App />} />
+			<Route path="/" element={<Navigate to={`/${nanoid()}`} />} />
 			<Route path="/:room" element={<App />} />
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
