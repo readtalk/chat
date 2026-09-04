@@ -1,93 +1,73 @@
-/* ============================================================
-   GLOBAL CSS - READTalk Messenger
-   ============================================================ */
-
-/* ===== VARIABEL WARNA ===== */
 :root {
     --primary: #FF0000;
     --primary-hover: #cc0000;
-    --primary-light: #ff3333;
-    --primary-dark: #990000;
-
     --bg: #ffffff;
     --text: #000000;
     --sidebar-bg: #f5f5f0;
     --sidebar-hover: #e8e8e0;
     --border: #e0e0d8;
-
-    --bubble-out: #FF0000;
-    --bubble-out-text: #ffffff;
-    --bubble-in: #ffffff;
-    --bubble-in-text: #000000;
-    --bubble-shadow: rgba(0,0,0,0.08);
-
     --input-bg: #f0f0f0;
-    --input-text: #000000;
     --input-placeholder: #888888;
-
-    --header-bg: #FF0000;
-    --header-text: #ffffff;
 }
 
-/* ===== TEMA TERANG ===== */
 [data-theme="light"] {
     --bg: #ffffff;
     --text: #000000;
     --sidebar-bg: #f5f5f0;
     --border: #e0e0d8;
-    --bubble-in: #ffffff;
-    --bubble-in-text: #000000;
     --input-bg: #f0f0f0;
-    --input-text: #000000;
 }
 
-/* ===== TEMA GELAP ===== */
 [data-theme="dark"] {
     --bg: #1a1a1a;
     --text: #e0e0e0;
     --sidebar-bg: #2a2a2a;
     --border: #3a3a3a;
-    --bubble-in: #2a2a2a;
-    --bubble-in-text: #e0e0e0;
     --input-bg: #2a2a2a;
-    --input-text: #e0e0e0;
-    --bubble-shadow: rgba(255,255,255,0.05);
 }
 
-/* ============================================================
-   SIDEBAR
-   ============================================================ */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+#root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bg);
+    padding: 0;
+}
+
 .one-third.column {
-    background: var(--sidebar-bg) !important;
-    border-right: 1px solid var(--border) !important;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
     padding: 0 !important;
     margin: 0 !important;
-    height: 100% !important;
+    height: 100vh !important;
     overflow-y: auto;
     display: flex !important;
     flex-direction: column !important;
 }
 
-/* ===== SIDEBAR HEADER ===== */
 .sidebar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     background: var(--primary);
-    color: var(--header-text);
-    border-bottom: 1px solid var(--border);
+    color: white;
     flex-shrink: 0;
 }
 
-.sidebar-header h4 {
+.sidebar-header h5 {
     margin: 0;
+    color: white;
     font-weight: 700;
-    color: var(--header-text);
-}
-
-.sidebar-header h4 b {
-    color: var(--header-text);
 }
 
 .sidebar-actions {
@@ -95,7 +75,31 @@
     gap: 8px;
 }
 
-/* ===== PROFILE CARD ===== */
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.icon-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+[data-theme="dark"] .icon-btn {
+    color: var(--text);
+}
+[data-theme="dark"] .icon-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
 .profile-card {
     display: flex;
     align-items: center;
@@ -112,7 +116,7 @@
     background: var(--sidebar-hover);
 }
 
-.profile-card .avatar {
+.avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -143,7 +147,6 @@
     color: var(--primary);
 }
 
-/* ===== CHAT LIST ===== */
 .chat-list {
     flex: 1;
     overflow-y: auto;
@@ -164,16 +167,11 @@
     background: var(--sidebar-hover);
 }
 
-.chat-item.active {
-    background: var(--sidebar-hover);
-    border-left-color: var(--primary);
-}
-
 .chat-avatar {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: var(--primary-light);
+    background: #ff6666;
     color: white;
     display: flex;
     align-items: center;
@@ -210,50 +208,6 @@
     flex-shrink: 0;
 }
 
-/* ============================================================
-   BUTTONS & ICONS
-   ============================================================ */
-.icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    font-size: 20px;
-    color: var(--header-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background 0.2s;
-}
-
-.icon-btn:hover {
-    background: rgba(255,255,255,0.15);
-}
-
-[data-theme="dark"] .icon-btn {
-    color: var(--text);
-}
-
-[data-theme="dark"] .icon-btn:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-/* ============================================================
-   CHAT (di #root / React)
-   ============================================================ */
-#root {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background: var(--bg);
-    height: 100%;
-    padding: 0;
-}
-
-/* ============================================================
-   RESPONSIVE: MOBILE
-   ============================================================ */
 @media (max-width: 550px) {
     .one-third.column {
         position: fixed !important;
@@ -266,58 +220,42 @@
         z-index: 1000;
         border-right: none !important;
     }
-
     .two-thirds.column {
         width: 100% !important;
         margin-left: 0 !important;
         padding: 0 !important;
     }
-
     .container {
         width: 100% !important;
         padding: 0 !important;
     }
-
     .sidebar-header {
         padding: 12px 16px;
     }
-
     .profile-card {
         padding: 10px 16px;
     }
-
     .chat-item {
         padding: 8px 16px;
     }
-
     .chat-avatar {
         width: 40px;
         height: 40px;
         font-size: 14px;
     }
-
     .chat-name {
         font-size: 14px;
     }
-
     .chat-preview {
         font-size: 12px;
     }
 }
 
-/* ============================================================
-   RESPONSIVE: TABLET
-   ============================================================ */
 @media (min-width: 551px) and (max-width: 1000px) {
     .one-third.column {
         width: 35% !important;
     }
-
     .two-thirds.column {
         width: 65% !important;
-    }
-
-    .sidebar-header h4 {
-        font-size: 1.2rem;
     }
 }
