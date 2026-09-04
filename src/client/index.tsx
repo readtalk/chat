@@ -81,7 +81,7 @@ function App() {
 					e.preventDefault();
 					
 					if (!isNameSet) {
-						// ⬅️ MODE SET NAMA: HANYA SET STATE, TIDAK KIRIM PESAN
+						// ⬅️ MODE SET STATE
 						const nameInput = e.currentTarget.elements.namedItem(
 							"nameInput",
 						) as HTMLInputElement;
@@ -90,10 +90,10 @@ function App() {
 							setIsNameSet(true);
 							nameInput.value = ""; // clear input
 						}
-						return; // ⬅️ LANGSUNG RETURN, TIDAK ADA SET MESSAGES
+						return; // ⬅️ RETURN SET MESSAGES
 					}
 
-					// ⬅️ MODE CHAT: KIRIM PESAN
+					// ⬅️ MODE CHAT
 					const content = e.currentTarget.elements.namedItem(
 						"content",
 					) as HTMLInputElement;
@@ -121,7 +121,7 @@ function App() {
 							type="text"
 							name="nameInput"
 							className="ten columns my-input-text"
-							placeholder="Enter your name..."
+							placeholder="Your Name"
 							autoComplete="off"
 						/>
 						<button type="submit" className="send-message two columns">
@@ -134,7 +134,7 @@ function App() {
 							type="text"
 							name="content"
 							className="ten columns my-input-text"
-							placeholder={`Hello ${name}! Type a message...`}
+							placeholder={` ${name}! Message`}
 							autoComplete="off"
 						/>
 						<button type="submit" className="send-message two columns">
