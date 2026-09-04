@@ -13,9 +13,6 @@
 		<script src="/dist/index.js" type="module"></script>
 
 		<style>
-			/* ============================================================
-			   SMARTPHONE: SIDEBAR FULLSCREEN PERTAMA KALI
-			   ============================================================ */
 			@media (max-width: 550px) {
 				.one-third.column {
 					position: fixed !important;
@@ -33,32 +30,12 @@
 					justify-content: center;
 					text-align: center;
 				}
-
-				.two-thirds.column {
-					width: 100% !important;
-					margin-left: 0 !important;
-				}
-
-				.container {
-					width: 100% !important;
-					padding: 0 !important;
-				}
+				.two-thirds.column { width: 100% !important; margin-left: 0 !important; }
+				.container { width: 100% !important; padding: 0 !important; }
 			}
-
-			/* ============================================================
-			   DESKTOP: SIDEBAR KIRI (TETAP)
-			   ============================================================ */
 			@media (min-width: 551px) {
-				.one-third.column {
-					position: relative !important;
-					width: 30.6666666667% !important;
-					margin-top: 25% !important;
-					display: block !important;
-				}
-
-				.two-thirds.column {
-					width: 65.3333333333% !important;
-				}
+				.one-third.column { position: relative !important; width: 30.6666666667% !important; margin-top: 25% !important; display: block !important; }
+				.two-thirds.column { width: 65.3333333333% !important; }
 			}
 		</style>
 	</head>
@@ -66,17 +43,11 @@
 	<body>
 		<div class="container" style="width:95%; height:100%">
 			<div class="row" style="height:100%">
-				<!-- ===== SIDEBAR ===== -->
 				<div class="one-third column" id="sidebar" style="margin-top:25%">
 					<h4><b>READT</b>alk Messenger</h4>
 					<p>by SOEPARNO Technology</p>
-
-					<button id="themeToggle" class="button" style="margin-top:20px">
-						🌙 Dark
-					</button>
+					<button id="themeToggle" class="button" style="margin-top:20px">🌙 Dark</button>
 				</div>
-
-				<!-- ===== CHAT AREA ===== -->
 				<div class="two-thirds column" id="root"></div>
 			</div>
 		</div>
