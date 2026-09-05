@@ -23,7 +23,7 @@ function App() {
 	const socket = usePartySocket({
 		party: "chat",
 		room,
-		enabled: isNameSet && !!room,
+		enabled: !!room, // ⬅️ TETAP AKTIF KALAU ROOM ADA
 		onMessage: (evt) => {
 			const message = JSON.parse(evt.data as string) as Message;
 			if (message.type === "add") {
