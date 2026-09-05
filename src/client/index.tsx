@@ -70,24 +70,19 @@ function App() {
 		},
 	});
 
-	// ===== YOUR NAME FORM (CENTER SCREEN) =====
+	// ===== YOUR NAME FORM (di kolom chat, bukan popup) =====
 	if (!isNameSet) {
 		return (
-			<div style={{
-				position: "fixed",
-				top: 0,
-				left: 0,
-				right: 0,
-				bottom: 0,
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				background: "#fff",
-				zIndex: 999
-			}}>
-				<div style={{ maxWidth: "400px", width: "100%", textAlign: "center", padding: "20px" }}>
-					<h2>Your Name</h2>
-					<form onSubmit={(e) => {
+			<div className="chat container">
+				{messages.map((message) => (
+					<div key={message.id} className="row message">
+						<div className="two columns user">{message.user}</div>
+						<div className="ten columns">{message.content}</div>
+					</div>
+				))}
+				<form
+					className="row"
+					onSubmit={(e) => {
 						e.preventDefault();
 						const input = e.currentTarget.elements.namedItem("nameInput") as HTMLInputElement;
 						if (input.value.trim()) {
@@ -96,42 +91,19 @@ function App() {
 							const newRoom = nanoid();
 							navigate(`/${newRoom}`);
 						}
-					}}>
-						<input
-							type="text"
-							name="nameInput"
-							placeholder="Enter your name..."
-							maxLength={32}
-							style={{
-								width: "100%",
-								height: "48px",
-								border: "2px solid #e0e0e0",
-								borderRadius: "24px",
-								padding: "0 20px",
-								fontSize: "16px",
-								marginBottom: "16px"
-							}}
-							autoFocus
-						/>
-						<button
-							type="submit"
-							style={{
-								height: "48px",
-								border: "none",
-								borderRadius: "24px",
-								padding: "0 32px",
-								fontSize: "16px",
-								fontWeight: "600",
-								cursor: "pointer",
-								background: "#0066cc",
-								color: "white",
-								width: "100%"
-							}}
-						>
-							Start Chat →
-						</button>
-					</form>
-				</div>
+					}}
+				>
+					<input
+						type="text"
+						name="nameInput"
+						className="ten columns my-input-text"
+						placeholder="Your Name"
+						autoComplete="off"
+					/>
+					<button type="submit" className="send-message two columns">
+						Submit
+					</button>
+				</form>
 			</div>
 		);
 	}
