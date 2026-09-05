@@ -7,7 +7,6 @@ import {
 	Route,
 	Navigate,
 	useParams,
-	useNavigate,
 } from "react-router";
 import { nanoid } from "nanoid";
 
@@ -18,12 +17,10 @@ function App() {
 	const [isNameSet, setIsNameSet] = useState(false);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const { room } = useParams();
-	const navigate = useNavigate();
 
 	const socket = usePartySocket({
 		party: "chat",
 		room,
-		enabled: !!room, // ⬅️ TETAP AKTIF KALAU ROOM ADA
 		onMessage: (evt) => {
 			const message = JSON.parse(evt.data as string) as Message;
 			if (message.type === "add") {
@@ -89,8 +86,6 @@ function App() {
 						// ===== PESAN PERTAMA = SET NAMA =====
 						setName(input.value.trim());
 						setIsNameSet(true);
-						const newRoom = nanoid();
-						navigate(`/${newRoom}`);
 						input.value = "";
 						return;
 					}
@@ -130,7 +125,7 @@ function App() {
 createRoot(document.getElementById("root")!).render(
 	<BrowserRouter>
 		<Routes>
-			<Route path="/" element={<App />} />
+			<Route path="/" element={<Navigate to={`/${nanoid()}`} />} />
 			<Route path="/:room" element={<App />} />
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
