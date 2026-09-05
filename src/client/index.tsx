@@ -70,45 +70,6 @@ function App() {
 		},
 	});
 
-	// ===== YOUR NAME FORM (di kolom chat, bukan popup) =====
-	if (!isNameSet) {
-		return (
-			<div className="chat container">
-				{messages.map((message) => (
-					<div key={message.id} className="row message">
-						<div className="two columns user">{message.user}</div>
-						<div className="ten columns">{message.content}</div>
-					</div>
-				))}
-				<form
-					className="row"
-					onSubmit={(e) => {
-						e.preventDefault();
-						const input = e.currentTarget.elements.namedItem("nameInput") as HTMLInputElement;
-						if (input.value.trim()) {
-							setName(input.value.trim());
-							setIsNameSet(true);
-							const newRoom = nanoid();
-							navigate(`/${newRoom}`);
-						}
-					}}
-				>
-					<input
-						type="text"
-						name="nameInput"
-						className="ten columns my-input-text"
-						placeholder="Your Name"
-						autoComplete="off"
-					/>
-					<button type="submit" className="send-message two columns">
-						Submit
-					</button>
-				</form>
-			</div>
-		);
-	}
-
-	// ===== CHAT =====
 	return (
 		<div className="chat container">
 			{messages.map((message) => (
@@ -121,13 +82,23 @@ function App() {
 				className="row"
 				onSubmit={(e) => {
 					e.preventDefault();
-					const content = e.currentTarget.elements.namedItem(
-						"content",
-					) as HTMLInputElement;
-					if (!content.value.trim()) return;
+					const input = e.currentTarget.elements.namedItem("input") as HTMLInputElement;
+					if (!input.value.trim()) return;
+
+					if (!isNameSet) {
+						// ===== PESAN PERTAMA = SET NAMA =====
+						setName(input.value.trim());
+						setIsNameSet(true);
+						const newRoom = nanoid();
+						navigate(`/${newRoom}`);
+						input.value = "";
+						return;
+					}
+
+					// ===== PESAN SELANJUTNYA = CHAT =====
 					const chatMessage: ChatMessage = {
 						id: nanoid(8),
-						content: content.value,
+						content: input.value,
 						user: name,
 						role: "user",
 					};
@@ -138,18 +109,18 @@ function App() {
 							...chatMessage,
 						} satisfies Message),
 					);
-					content.value = "";
+					input.value = "";
 				}}
 			>
 				<input
 					type="text"
-					name="content"
+					name="input"
 					className="ten columns my-input-text"
-					placeholder={`Hello ${name}! Type a message...`}
+					placeholder={isNameSet ? `Hello ${name}! Type a message...` : "Your Name"}
 					autoComplete="off"
 				/>
 				<button type="submit" className="send-message two columns">
-					Send
+					{isNameSet ? "Send" : "Submit"}
 				</button>
 			</form>
 		</div>
