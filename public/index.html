@@ -7,10 +7,28 @@
 
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/backbone.css" />
-		<link rel="stylesheet" href="global.css" />
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
+
+		<style>
+			/* inline style untuk perbaikan posisi */
+			#root {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				width: 100%;
+			}
+
+			.chat-messages {
+				flex: 1;
+				overflow-y: auto;
+			}
+
+			.chat-input {
+				flex-shrink: 0;
+			}
+		</style>
 	</head>
 
 	<body>
