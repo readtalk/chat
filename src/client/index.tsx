@@ -19,7 +19,6 @@ function App() {
 	const { room } = useParams();
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
-	// Auto-scroll ke pesan terbaru
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
@@ -75,9 +74,7 @@ function App() {
 
 	return (
 		<div className="app-wrapper">
-			{/* Area Chat */}
 			<div className="chat-area">
-				{/* Daftar Pesan */}
 				<div className="message-list">
 					{messages.map((message) => (
 						<div
@@ -90,11 +87,8 @@ function App() {
 							{message.content}
 						</div>
 					))}
-					{/* Elemen dummy untuk auto-scroll */}
 					<div ref={messagesEndRef} />
 				</div>
-
-				{/* Form Input */}
 				<form
 					className="chat-input-form"
 					onSubmit={(e) => {
@@ -105,14 +99,12 @@ function App() {
 						if (!input.value.trim()) return;
 
 						if (!isNameSet) {
-							// ===== PESAN PERTAMA = SET NAMA =====
 							setName(input.value.trim());
 							setIsNameSet(true);
 							input.value = "";
 							return;
 						}
 
-						// ===== PESAN SELANJUTNYA = CHAT =====
 						const chatMessage: ChatMessage = {
 							id: nanoid(8),
 							content: input.value,
@@ -148,9 +140,6 @@ function App() {
 	);
 }
 
-// ============================================
-// RENDER (tetap sama)
-// ============================================
 createRoot(document.getElementById("root")!).render(
 	<BrowserRouter>
 		<Routes>
