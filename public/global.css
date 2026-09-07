@@ -1,5 +1,5 @@
 /* ============================================
-   RESET & VARIABEL (menggantikan skeleton.css)
+   1. RESET TAMBAHAN & VARIABEL GLOBAL
    ============================================ */
 * {
   box-sizing: border-box;
@@ -7,143 +7,232 @@
   padding: 0;
 }
 
-html, body {
-  height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+html {
   font-size: 62.5%; /* 1rem = 10px, seperti Skeleton */
 }
 
 body {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.5rem;
   line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-}
-
-/* ============================================
-   TEMA (TERANG & GELAP) - Tanpa !important
-   ============================================ */
-[data-theme="light"] {
-  --bg-body: #ffffff;
-  --bg-container: #f8f9fa;
-  --bg-input: #ffffff;
-  --text-color: #222222;
-  --border-color: #dddddd;
-  --bubble-user: #33c3f0;
-  --bubble-other: #f1f3f5;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-[data-theme="dark"] {
-  --bg-body: #1a1a2e;
-  --bg-container: #16213e;
-  --bg-input: #1a1a2e;
-  --text-color: #eeeeee;
-  --border-color: #2a2a4a;
-  --bubble-user: #33c3f0;
-  --bubble-other: #2a2a4a;
-  --shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-
-body {
+  height: 100%;
   background-color: var(--bg-body);
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
 }
 
 /* ============================================
-   LAYOUT UTAMA (menggantikan .container, .row, .column)
+   2. TEMA (TERANG & GELAP)
+   ============================================ */
+[data-theme="light"] {
+  --bg-body: #f0f2f5;
+  --bg-container: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-chat: #ffffff;
+  --bg-input: #f0f2f5;
+  --text-color: #222222;
+  --border-color: #e0e4e8;
+  --bubble-user: #33c3f0;
+  --bubble-user-text: #ffffff;
+  --bubble-other: #ffffff;
+  --bubble-other-text: #222222;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --header-bg: #ffffff;
+  --button-bg: transparent;
+  --button-border: #bbb;
+  --button-hover: #333;
+}
+
+[data-theme="dark"] {
+  --bg-body: #0e1621;
+  --bg-container: #17212b;
+  --bg-sidebar: #17212b;
+  --bg-chat: #17212b;
+  --bg-input: #17212b;
+  --text-color: #e1e4e8;
+  --border-color: #2a3a4a;
+  --bubble-user: #33c3f0;
+  --bubble-user-text: #ffffff;
+  --bubble-other: #1f2c38;
+  --bubble-other-text: #e1e4e8;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --header-bg: #17212b;
+  --button-bg: transparent;
+  --button-border: #2a3a4a;
+  --button-hover: #e1e4e8;
+}
+
+/* ============================================
+   3. LAYOUT DASAR (Menggantikan Skeleton Grid)
+   ============================================ */
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px; /* Lebih lebar dari Skeleton untuk chat */
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  height: 100vh; /* Penuh layar */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertikal center jika konten sedikit */
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%; /* Mengisi container */
+  background-color: var(--bg-container);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden; /* Agar sudut melengkung rapi */
+}
+
+.column,
+.columns {
+  flex: 1;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Grid 12 Kolom Skeleton (dipertahankan) */
+.one-third.column {
+  flex: 0 0 33.333%;
+  max-width: 33.333%;
+  padding: 20px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.two-thirds.column {
+  flex: 0 0 66.666%;
+  max-width: 66.666%;
+  padding: 0;
+  background-color: var(--bg-chat);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   4. GAYA UNTUK ELEMEN STATIS DI SIDEBAR
+   ============================================ */
+.one-third.column h4 {
+  margin: 0 0 10px 0;
+  font-weight: 300;
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.one-third.column h4 b {
+  font-weight: 700;
+}
+
+/* Tombol Tema (di sidebar) */
+#themeToggle {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--button-border);
+  background: var(--button-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 1.3rem;
+  width: fit-content;
+  transition: all 0.2s;
+}
+
+#themeToggle:hover {
+  background-color: rgba(0,0,0,0.05);
+  border-color: var(--button-hover);
+}
+
+[data-theme="dark"] #themeToggle:hover {
+  background-color: rgba(255,255,255,0.05);
+  border-color: var(--button-hover);
+}
+
+/* ============================================
+   5. AREA CHAT (#root) - UNTUK REACT
+   ============================================ */
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* Penting agar scroll di dalam React berfungsi */
+}
+
+/* ============================================
+   6. GAYA UNTUK KOMPONEN REACT (dari index.tsx)
    ============================================ */
 .app-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 20px;
-  background-color: var(--bg-container);
-  box-shadow: var(--shadow);
+  height: 100%;
+  background-color: var(--bg-chat);
 }
 
-/* Header */
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
-}
-
-.app-header h4 {
-  margin: 0;
-  font-weight: 300;
-  font-size: 2.2rem;
-}
-
-/* Area Chat (menggantikan #root) */
 .chat-area {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Penting agar scroll berfungsi */
-  padding: 10px 0;
+  flex: 1;
+  overflow: hidden;
 }
 
-/* Daftar Pesan - bisa di-scroll */
 .message-list {
   flex: 1;
   overflow-y: auto;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 10px 0;
+  background-color: var(--bg-chat);
 }
 
-/* Bubble Pesan */
 .message-bubble {
-  max-width: 75%;
-  padding: 10px 16px;
-  border-radius: 18px;
+  max-width: 70%;
+  padding: 8px 14px;
+  border-radius: 12px;
   word-wrap: break-word;
   font-size: 1.4rem;
   line-height: 1.5;
   background-color: var(--bubble-other);
-  color: var(--text-color);
+  color: var(--bubble-other-text);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow);
 }
 
 .message-bubble.user {
   align-self: flex-end;
   background-color: var(--bubble-user);
-  color: #ffffff;
+  color: var(--bubble-user-text);
   border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 18px;
+  border-bottom-left-radius: 12px;
 }
 
 .message-bubble .username {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 2px;
   display: block;
-  color: rgba(0,0,0,0.5);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: #33c3f0;
 }
 
 .message-bubble.user .username {
-  color: rgba(255,255,255,0.7);
+  display: none;
 }
 
-/* Input Form */
 .chat-input-form {
   display: flex;
   gap: 10px;
-  padding: 15px 0;
+  padding: 12px 20px;
+  background-color: var(--bg-input);
   border-top: 1px solid var(--border-color);
   flex-shrink: 0;
-  background-color: var(--bg-container);
+  align-items: center;
 }
 
 .chat-input-form input {
@@ -151,16 +240,15 @@ body {
   padding: 12px 18px;
   border-radius: 25px;
   border: 1px solid var(--border-color);
-  background-color: var(--bg-input);
+  background-color: var(--bg-body);
   color: var(--text-color);
   font-size: 1.4rem;
   outline: none;
-  transition: border 0.2s, box-shadow 0.2s;
+  transition: border 0.2s;
 }
 
 .chat-input-form input:focus {
   border-color: var(--bubble-user);
-  box-shadow: 0 0 0 3px rgba(51, 195, 240, 0.2);
 }
 
 .chat-input-form input::placeholder {
@@ -168,19 +256,19 @@ body {
 }
 
 [data-theme="dark"] .chat-input-form input::placeholder {
-  color: #aaa;
+  color: #6a7a8a;
 }
 
 .chat-input-form button {
-  padding: 0 24px;
+  padding: 10px 24px;
   border-radius: 25px;
   border: none;
   background-color: var(--bubble-user);
   color: #ffffff;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.3rem;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: background-color 0.2s;
   white-space: nowrap;
 }
 
@@ -188,67 +276,37 @@ body {
   background-color: #1eaedb;
 }
 
-.chat-input-form button:active {
-  transform: scale(0.95);
-}
-
 /* ============================================
-   TOMBOL TEMA (tetap pakai gaya Skeleton)
+   7. RESPONSIVE
    ============================================ */
-#themeToggle {
-  padding: 6px 20px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text-color);
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#themeToggle:hover {
-  background-color: rgba(0,0,0,0.05);
-}
-
-[data-theme="dark"] #themeToggle:hover {
-  background-color: rgba(255,255,255,0.05);
-}
-
-/* ============================================
-   UTILITY (untuk membantu transisi dari Skeleton)
-   ============================================ */
-/* Jika masih ada elemen dengan kelas .row, .column dari Skeleton */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.column, .columns {
-  flex: 1;
-  padding: 0 10px;
-}
-
-/* Untuk mempertahankan grid Skeleton jika masih dipakai di tempat lain */
-.one-third.column { flex: 0 0 33.333%; max-width: 33.333%; }
-.two-thirds.column { flex: 0 0 66.666%; max-width: 66.666%; }
-.two.columns { flex: 0 0 16.666%; max-width: 16.666%; }
-.ten.columns { flex: 0 0 83.333%; max-width: 83.333%; }
-
-/* ============================================
-   RESPONSIVE (Sesuaikan dengan Skeleton)
-   ============================================ */
-@media (max-width: 550px) {
-  .app-wrapper {
+@media (max-width: 750px) {
+  .container {
     padding: 0 10px;
+  }
+  
+  .one-third.column {
+    flex: 0 0 100%;
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+  }
+  
+  .one-third.column h4 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+  
+  .two-thirds.column {
+    flex: 0 0 100%;
+    max-width: 100%;
+    height: 100%;
   }
   
   .message-bubble {
     max-width: 85%;
-  }
-  
-  .chat-input-form button {
-    padding: 0 16px;
-    font-size: 1.2rem;
   }
 }
