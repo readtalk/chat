@@ -73,70 +73,68 @@ function App() {
 	});
 
 	return (
-		<div className="app-wrapper">
-			<div className="chat-area">
-				<div className="message-list">
-					{messages.map((message) => (
-						<div
-							key={message.id}
-							className={`message-bubble ${message.user === name ? "user" : ""}`}
-						>
-							{message.user !== name && (
-								<span className="username">{message.user}</span>
-							)}
-							{message.content}
-						</div>
-					))}
-					<div ref={messagesEndRef} />
-				</div>
-				<form
-					className="chat-input-form"
-					onSubmit={(e) => {
-						e.preventDefault();
-						const input = e.currentTarget.elements.namedItem(
-							"input"
-						) as HTMLInputElement;
-						if (!input.value.trim()) return;
-
-						if (!isNameSet) {
-							setName(input.value.trim());
-							setIsNameSet(true);
-							input.value = "";
-							return;
-						}
-
-						const chatMessage: ChatMessage = {
-							id: nanoid(8),
-							content: input.value,
-							user: name,
-							role: "user",
-						};
-						setMessages((messages) => [...messages, chatMessage]);
-						socket.send(
-							JSON.stringify({
-								type: "add",
-								...chatMessage,
-							} satisfies Message),
-						);
-						input.value = "";
-					}}
-				>
-					<input
-						type="text"
-						name="input"
-						placeholder={
-							isNameSet
-								? `Hello ${name}! Type a message...`
-								: "Your Name"
-						}
-						autoComplete="off"
-					/>
-					<button type="submit">
-						{isNameSet ? "Send" : "Submit"}
-					</button>
-				</form>
+		<>
+			<div className="chat-messages">
+				{messages.map((message) => (
+					<div
+						key={message.id}
+						className={`message ${message.user === name ? "self" : ""}`}
+					>
+						{message.user !== name && (
+							<span className="sender">{message.user}</span>
+						)}
+						{message.content}
+					</div>
+				))}
+				<div ref={messagesEndRef} />
 			</div>
-		</div>
+			<form
+				className="chat-input"
+				onSubmit={(e) => {
+					e.preventDefault();
+					const input = e.currentTarget.elements.namedItem(
+						"input"
+					) as HTMLInputElement;
+					if (!input.value.trim()) return;
+
+					if (!isNameSet) {
+						setName(input.value.trim());
+						setIsNameSet(true);
+						input.value = "";
+						return;
+					}
+
+					const chatMessage: ChatMessage = {
+						id: nanoid(8),
+						content: input.value,
+						user: name,
+						role: "user",
+					};
+					setMessages((messages) => [...messages, chatMessage]);
+					socket.send(
+						JSON.stringify({
+							type: "add",
+							...chatMessage,
+						} satisfies Message),
+					);
+					input.value = "";
+				}}
+			>
+				<input
+					type="text"
+					name="input"
+					placeholder={
+						isNameSet
+							? `Hello ${name}! Type a message...`
+							: "Your Name"
+					}
+					autoComplete="off"
+				/>
+				<button type="submit">
+					{isNameSet ? "Send" : "Submit"}
+				</button>
+			</form>
+		</>
 	);
 }
 
