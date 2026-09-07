@@ -12,12 +12,17 @@
 		<script src="/dist/index.js" type="module"></script>
 
 		<style>
-			/* inline style untuk perbaikan posisi */
+			/* Inline style untuk yang backbone tidak atur */
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
 			#root {
+				height: 100%;
 				display: flex;
 				flex-direction: column;
-				height: 100%;
-				width: 100%;
 			}
 
 			.chat-messages {
@@ -32,11 +37,11 @@
 	</head>
 
 	<body>
-		<div class="app" style="width:95%; height:100%">
-			<div class="sidebar" style="margin-top:5%">
+		<div class="app" style="height:100%;">
+			<div class="sidebar">
 				<h4 class="sidebar-brand"><b>READT</b>alk Messenger</h4>
 				<p></p>
-				<button id="themeToggle" class="btn" style="margin-top:5px">
+				<button id="themeToggle" class="btn" style="margin-top:5px;">
 					🌙 Dark
 				</button>
 			</div>
