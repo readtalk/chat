@@ -7,21 +7,19 @@
 
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/backbone.css" />
+		<link rel="stylesheet" href="/global.css" />
 
 		<link rel="icon" type="image/ico" href="favicon.ico" />
 		<script src="/dist/index.js" type="module"></script>
 	</head>
 
 	<body>
-		<div class="app" style="width:95%; height:100%">
-			<div class="sidebar" style="margin-top:5%">
+		<div class="app">
+			<aside class="sidebar">
 				<h4 class="sidebar-brand"><b>READT</b>alk Messenger</h4>
-				<p></p>
-				<button id="themeToggle" class="btn" style="margin-top:5px">
-					🌙 Dark
-				</button>
-			</div>
-			<div class="main" id="root"></div>
+				<button id="themeToggle" class="btn">🌙 Dark</button>
+			</aside>
+			<main class="main" id="root"></main>
 		</div>
 
 		<script>
