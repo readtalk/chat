@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { usePartySocket } from "partysocket/react";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import {
 	BrowserRouter,
 	Routes,
@@ -17,11 +17,6 @@ function App() {
 	const [isNameSet, setIsNameSet] = useState(false);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const { room } = useParams();
-	const messagesEndRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [messages]);
 
 	const socket = usePartySocket({
 		party: "chat",
@@ -73,28 +68,18 @@ function App() {
 	});
 
 	return (
-		<>
-			<div className="chat-messages">
-				{messages.map((message) => (
-					<div
-						key={message.id}
-						className={`message ${message.user === name ? "self" : ""}`}
-					>
-						{message.user !== name && (
-							<span className="sender">{message.user}</span>
-						)}
-						{message.content}
-					</div>
-				))}
-				<div ref={messagesEndRef} />
-			</div>
+		<div className="main">
+			{messages.map((message) => (
+				<div key={message.id} className="message">
+					<div className="sender">{message.user}</div>
+					<div>{message.content}</div>
+				</div>
+			))}
 			<form
 				className="chat-input"
 				onSubmit={(e) => {
 					e.preventDefault();
-					const input = e.currentTarget.elements.namedItem(
-						"input"
-					) as HTMLInputElement;
+					const input = e.currentTarget.elements.namedItem("input") as HTMLInputElement;
 					if (!input.value.trim()) return;
 
 					if (!isNameSet) {
@@ -123,18 +108,14 @@ function App() {
 				<input
 					type="text"
 					name="input"
-					placeholder={
-						isNameSet
-							? `Hello ${name}! Type a message...`
-							: "Your Name"
-					}
+					placeholder={isNameSet ? `Hello ${name}! Type a message...` : "Your Name"}
 					autoComplete="off"
 				/>
 				<button type="submit">
 					{isNameSet ? "Send" : "Submit"}
 				</button>
 			</form>
-		</>
+		</div>
 	);
 }
 
