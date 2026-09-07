@@ -1,0 +1,364 @@
+// Globalize Backbone v1.0.0 | 2026 READTalk Messenger
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #111b21;
+  background: #f0f2f5;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 33.333%;
+  max-width: 320px;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 15px;
+  color: #111b21;
+}
+
+.sidebar-brand b {
+  font-weight: 700;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: transparent;
+  color: #555;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: fit-content;
+}
+
+.btn:hover {
+  color: #333;
+  border-color: #888;
+}
+
+.btn-primary {
+  background: #ff0000;
+  border-color: #ff0000;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #e60000;
+  border-color: #e60000;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f5;
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 15px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #111b21;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f0f2f5;
+}
+
+.message {
+  max-width: 70%;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  background: #fff;
+  color: #111b21;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.message.self {
+  align-self: flex-end;
+  background: #ff0000;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 12px;
+}
+
+.message .sender {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ff0000;
+  margin-bottom: 2px;
+}
+
+.message.self .sender {
+  display: none;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 1px solid #e0e0e0;
+  background: #f0f2f5;
+  color: #111b21;
+  font-size: 1.4rem;
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #ff0000;
+}
+
+.chat-input input::placeholder {
+  color: #667781;
+}
+
+.chat-input button {
+  padding: 10px 24px;
+  border-radius: 25px;
+  border: none;
+  background: #ff0000;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.chat-input button:hover {
+  background: #e60000;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+h1 { font-size: 3.2rem; line-height: 1.2; }
+h2 { font-size: 2.8rem; line-height: 1.25; }
+h3 { font-size: 2.4rem; line-height: 1.3; }
+h4 { font-size: 2rem; line-height: 1.35; }
+h5 { font-size: 1.6rem; line-height: 1.5; }
+h6 { font-size: 1.4rem; line-height: 1.6; }
+
+p { margin-top: 0; }
+
+a { color: #ff0000; text-decoration: none; }
+a:hover { color: #e60000; }
+
+input[type="text"] {
+  height: 38px;
+  padding: 6px 10px;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+  border-color: #ff0000;
+  outline: 0;
+}
+
+ul, ol {
+  padding-left: 0;
+  margin-top: 0;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin: 1.5rem 0 1.5rem 3rem;
+  font-size: 90%;
+}
+
+li { margin-bottom: 1rem; }
+
+code {
+  padding: 0.2rem 0.5rem;
+  font-size: 90%;
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+hr {
+  margin: 3rem 0;
+  border: 0;
+  border-top: 1px solid #e1e1e1;
+}
+
+[data-theme="dark"] .app {
+  background: #111b21;
+}
+
+[data-theme="dark"] .sidebar {
+  background: #111b21;
+  border-right-color: #2a3942;
+}
+
+[data-theme="dark"] .sidebar-brand {
+  color: #e9edef;
+}
+
+[data-theme="dark"] .btn {
+  color: #e9edef;
+  border-color: #2a3942;
+}
+
+[data-theme="dark"] .btn:hover {
+  border-color: #8696a0;
+}
+
+[data-theme="dark"] .main {
+  background: #0b141a;
+}
+
+[data-theme="dark"] .chat-header {
+  background: #111b21;
+  border-bottom-color: #2a3942;
+  color: #e9edef;
+}
+
+[data-theme="dark"] .chat-messages {
+  background: #0b141a;
+}
+
+[data-theme="dark"] .message {
+  background: #1f2c38;
+  color: #e9edef;
+}
+
+[data-theme="dark"] .message.self {
+  background: #ff0000;
+  color: #fff;
+}
+
+[data-theme="dark"] .message .sender {
+  color: #ff6666;
+}
+
+[data-theme="dark"] .chat-input {
+  background: #111b21;
+  border-top-color: #2a3942;
+}
+
+[data-theme="dark"] .chat-input input {
+  background: #2a3942;
+  color: #e9edef;
+  border-color: #2a3942;
+}
+
+[data-theme="dark"] .chat-input input::placeholder {
+  color: #8696a0;
+}
+
+[data-theme="dark"] .chat-input button {
+  background: #ff0000;
+  color: #fff;
+}
+
+[data-theme="dark"] .chat-input button:hover {
+  background: #cc0000;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-brand {
+    font-size: 1.6rem;
+    margin-bottom: 0;
+  }
+
+  .main {
+    height: 100%;
+  }
+}
+
+[data-theme="dark"] @media (max-width: 768px) {
+  .sidebar {
+    border-bottom-color: #2a3942;
+  }
+}
