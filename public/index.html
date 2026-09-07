@@ -5,29 +5,19 @@
   <title>READTalk Messenger</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- 1. Normalize.css: konsistensi browser -->
   <link rel="stylesheet" href="css/normalize.css" />
-
-  <!-- 2. global.css: gaya kustom (menggantikan skeleton) -->
-  <link rel="stylesheet" href="global.css" />
+  <link rel="stylesheet" href="css/backbone.css" />
 
   <link rel="icon" type="image/ico" href="favicon.ico" />
   <script src="/dist/index.js" type="module"></script>
 </head>
 <body>
-  <!-- 
-    Karena React sekarang mengelola seluruh area chat (app-wrapper),
-    kita cukup sediakan container untuk #root dan elemen statis.
-  -->
-  <div class="app-container">
-    <!-- Sidebar Statis (di luar React) -->
-    <aside class="app-sidebar-static">
-      <h4><b>READT</b>alk Messenger</h4>
-      <button id="themeToggle" class="button">🌙 Dark</button>
+  <div class="app">
+    <aside class="sidebar">
+      <h4 class="sidebar-brand"><b>READT</b>alk Messenger</h4>
+      <button id="themeToggle" class="btn">🌙 Dark</button>
     </aside>
-
-    <!-- Area React (chat utama) -->
-    <main class="app-main-react" id="root"></main>
+    <main class="main" id="root"></main>
   </div>
 
   <script>
