@@ -1,92 +1,86 @@
-/* ============================================
-   1. RESET TAMBAHAN & VARIABEL GLOBAL
-   ============================================ */
-* {
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
 }
 
-html {
-  font-size: 62.5%; /* 1rem = 10px, seperti Skeleton */
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1.5rem;
-  line-height: 1.6;
-  height: 100%;
-  background-color: var(--bg-body);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
+#root {
+  display: block;
 }
 
 /* ============================================
-   2. TEMA (TERANG & GELAP)
+   2. VARIABEL GLOBAL & TEMA DASAR
    ============================================ */
-[data-theme="light"] {
-  --bg-body: #f0f2f5;
-  --bg-container: #ffffff;
-  --bg-sidebar: #ffffff;
-  --bg-chat: #ffffff;
-  --bg-input: #f0f2f5;
-  --text-color: #222222;
-  --border-color: #e0e4e8;
-  --bubble-user: #33c3f0;
-  --bubble-user-text: #ffffff;
-  --bubble-other: #ffffff;
-  --bubble-other-text: #222222;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08);
-  --header-bg: #ffffff;
-  --button-bg: transparent;
-  --button-border: #bbb;
-  --button-hover: #333;
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-[data-theme="dark"] {
-  --bg-body: #0e1621;
-  --bg-container: #17212b;
-  --bg-sidebar: #17212b;
-  --bg-chat: #17212b;
-  --bg-input: #17212b;
-  --text-color: #e1e4e8;
-  --border-color: #2a3a4a;
-  --bubble-user: #33c3f0;
-  --bubble-user-text: #ffffff;
-  --bubble-other: #1f2c38;
-  --bubble-other-text: #e1e4e8;
-  --shadow: 0 1px 3px rgba(0,0,0,0.4);
-  --header-bg: #17212b;
-  --button-bg: transparent;
-  --button-border: #2a3a4a;
-  --button-hover: #e1e4e8;
+/* LIGHT MODE (default) */
+:root {
+  color: #111b21;
+  background-color: #ffffff;
+}
+
+/* DARK MODE (preferensi sistem) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #e9edef;
+    background-color: #111b21;
+  }
+  a:hover {
+    color: #ff3333;
+  }
+}
+
+/* Link */
+a {
+  font-weight: 500;
+  color: #ff0000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #e60000;
+}
+
+/* Heading */
+h1 {
+  margin: 0;
 }
 
 /* ============================================
-   3. LAYOUT DASAR (Menggantikan Skeleton Grid)
+   3. LAYOUT DASAR (dari index.html)
    ============================================ */
 .container {
-  position: relative;
-  width: 100%;
-  max-width: 1200px; /* Lebih lebar dari Skeleton untuk chat */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  box-sizing: border-box;
-  height: 100vh; /* Penuh layar */
+  height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertikal center jika konten sedikit */
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 100%; /* Mengisi container */
-  background-color: var(--bg-container);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  overflow: hidden; /* Agar sudut melengkung rapi */
+  height: 100%;
 }
 
 .column,
@@ -96,13 +90,11 @@ body {
   box-sizing: border-box;
 }
 
-/* Grid 12 Kolom Skeleton (dipertahankan) */
+/* Grid untuk sidebar (1/3) dan chat (2/3) */
 .one-third.column {
   flex: 0 0 33.333%;
   max-width: 33.333%;
   padding: 20px;
-  background-color: var(--bg-sidebar);
-  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
 }
@@ -111,67 +103,382 @@ body {
   flex: 0 0 66.666%;
   max-width: 66.666%;
   padding: 0;
-  background-color: var(--bg-chat);
   display: flex;
   flex-direction: column;
 }
 
 /* ============================================
-   4. GAYA UNTUK ELEMEN STATIS DI SIDEBAR
+   4. GAYA APP (dari CSS Anda)
    ============================================ */
-.one-third.column h4 {
-  margin: 0 0 10px 0;
-  font-weight: 300;
-  font-size: 2rem;
-  color: var(--text-color);
+.app-layout {
+  background: #ffffff;
+  color: #111b21;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
 }
 
-.one-third.column h4 b {
-  font-weight: 700;
+.app-header {
+  height: 60px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 0 20px;
+  border-bottom: none;
+  flex-shrink: 0;
+  color: #111b21;
 }
 
-/* Tombol Tema (di sidebar) */
-#themeToggle {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--button-border);
-  background: var(--button-bg);
-  color: var(--text-color);
+.app-header-title {
+  font-size: 27px;
+  font-weight: 600;
+  margin: 0;
+  color: #ff0000;
+  letter-spacing: -0.5px;
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-user-info {
+  font-size: 12px;
+  color: #667781;
+}
+
+.app-menu-btn {
+  background: none;
+  border: none;
+  padding: 8px;
   cursor: pointer;
-  font-size: 1.3rem;
-  width: fit-content;
-  transition: all 0.2s;
 }
 
-#themeToggle:hover {
-  background-color: rgba(0,0,0,0.05);
-  border-color: var(--button-hover);
+.app-menu-btn img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0);
 }
 
-[data-theme="dark"] #themeToggle:hover {
-  background-color: rgba(255,255,255,0.05);
-  border-color: var(--button-hover);
+.app-search-container {
+  padding: 6px 16px 12px 16px;
+  background: #ffffff;
+  flex-shrink: 0;
 }
 
-/* ============================================
-   5. AREA CHAT (#root) - UNTUK REACT
-   ============================================ */
-#root {
+.app-search-box {
+  position: relative;
+  height: 47px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 24px;
+}
+
+.app-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+.app-search-input {
+  width: 100%;
+  height: 100%;
+  padding: 0 12px 0 44px;
+  background: transparent;
+  border: none;
+  color: #111b21;
+  font-size: 15px;
+  outline: none;
+}
+
+.app-search-input::placeholder {
+  color: #667781;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.app-sidebar {
+  width: 35%;
+  max-width: 420px;
+  min-width: 280px;
+  background: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: #f0f2f5;
+  overflow: hidden;
+}
+
+.app-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #667781;
+}
+
+.app-empty-icon {
+  width: 80px;
+  opacity: 0.3;
+  margin-bottom: 16px;
+}
+
+.app-empty-text {
+  font-size: 15px;
+  color: #667781;
+}
+
+.app-dropdown {
+  position: absolute;
+  top: 56px;
+  right: 12px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.app-dropdown-item,
+.app-mode-toggle {
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #111b21;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.app-dropdown-item:hover,
+.app-mode-toggle:hover {
+  background: #f5f5f5;
+}
+
+.app-logout-item {
+  color: #d32f2f !important;
+}
+
+.app-bottom-nav {
+  height: 68px;
+  background: #ffffff;
+  border-top: none;
+  display: none;
+  flex-shrink: 0;
+  padding-bottom: 8px;
+}
+
+.app-bottom-tab {
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden; /* Penting agar scroll di dalam React berfungsi */
+  align-items: center;
+  justify-content: center;
+  color: #54656f;
+  font-size: 12px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  gap: 4px;
+}
+
+.app-bottom-tab.active {
+  color: #ff0000;
+}
+
+.app-bottom-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(0.4);
+}
+
+.app-bottom-tab.active .app-bottom-icon {
+  filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7483%) hue-rotate(0deg) brightness(98%) contrast(107%);
+  background: none;
+  padding: 0;
+}
+
+.app-fab {
+  position: fixed;
+  bottom: 84px;
+  right: 16px;
+  width: 56px;
+  height: 56px;
+  background: #ff0000;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.app-fab img {
+  width: 24px;
+  filter: brightness(0) invert(1);
 }
 
 /* ============================================
-   6. GAYA UNTUK KOMPONEN REACT (dari index.tsx)
+   5. TEMA GELAP (.app-layout.dark)
+   ============================================ */
+.app-layout.dark {
+  background: #111b21;
+  color: #e9edef;
+}
+
+.app-layout.dark .app-header {
+  background: #111b21;
+  border-bottom: none;
+}
+
+.app-layout.dark .app-header-title {
+  color: #ff0000;
+}
+
+.app-layout.dark .app-user-info {
+  color: #8696a0;
+}
+
+.app-layout.dark .app-menu-btn img {
+  filter: brightness(0) invert(1);
+}
+
+.app-layout.dark .app-search-container {
+  background: #111b21;
+}
+
+.app-layout.dark .app-search-box {
+  background: #2a3942;
+}
+
+.app-layout.dark .app-search-input {
+  color: #e9edef;
+}
+
+.app-layout.dark .app-search-input::placeholder {
+  color: #8696a0;
+}
+
+.app-layout.dark .app-sidebar {
+  background: #111b21;
+  border-right: 1px solid #2a3942;
+}
+
+.app-layout.dark .app-empty {
+  color: #8696a0;
+}
+
+.app-layout.dark .app-empty-text {
+  color: #8696a0;
+}
+
+.app-layout.dark .app-content {
+  background: #0b141a;
+}
+
+.app-layout.dark .app-dropdown {
+  background: #202c33;
+  border-color: #2a3942;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.app-layout.dark .app-dropdown-item,
+.app-layout.dark .app-mode-toggle {
+  color: #e9edef;
+}
+
+.app-layout.dark .app-dropdown-item:hover,
+.app-layout.dark .app-mode-toggle:hover {
+  background: #2a3942;
+}
+
+.app-layout.dark .app-bottom-nav {
+  background: #111b21;
+}
+
+.app-layout.dark .app-bottom-tab {
+  color: #8696a0;
+}
+
+.app-layout.dark .app-bottom-tab.active {
+  color: #ff0000;
+}
+
+.app-layout.dark .app-bottom-icon {
+  filter: brightness(0) invert(0.6);
+}
+
+.app-layout.dark .app-bottom-tab.active .app-bottom-icon {
+  filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7483%) hue-rotate(0deg) brightness(98%) contrast(107%);
+  background: none;
+  padding: 0;
+}
+
+/* ============================================
+   6. RESPONSIF (mobile)
+   ============================================ */
+@media (max-width: 768px) {
+  .app-sidebar {
+    display: block;
+    width: 100%;
+    height: calc(100% - 128px);
+    position: relative;
+    transform: none;
+    border-right: none;
+  }
+
+  .app-content {
+    display: none;
+    width: 100%;
+  }
+
+  .app-content.open {
+    display: flex;
+  }
+
+  .app-bottom-nav {
+    display: flex;
+  }
+
+  .app-fab {
+    display: flex;
+  }
+}
+
+/* ============================================
+   7. GAYA UNTUK KOMPONEN CHAT (dari index.tsx)
    ============================================ */
 .app-wrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--bg-chat);
+  width: 100%;
+  background: #f0f2f5;
 }
 
 .chat-area {
@@ -179,6 +486,7 @@ body {
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+  background: #f0f2f5;
 }
 
 .message-list {
@@ -188,7 +496,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-color: var(--bg-chat);
+  background: #f0f2f5;
 }
 
 .message-bubble {
@@ -198,17 +506,17 @@ body {
   word-wrap: break-word;
   font-size: 1.4rem;
   line-height: 1.5;
-  background-color: var(--bubble-other);
-  color: var(--bubble-other-text);
+  background: #ffffff;
+  color: #111b21;
   align-self: flex-start;
   border-bottom-left-radius: 4px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .message-bubble.user {
   align-self: flex-end;
-  background-color: var(--bubble-user);
-  color: var(--bubble-user-text);
+  background: #ff0000;
+  color: #ffffff;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 12px;
 }
@@ -218,7 +526,7 @@ body {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 2px;
-  color: #33c3f0;
+  color: #ff0000;
 }
 
 .message-bubble.user .username {
@@ -229,8 +537,8 @@ body {
   display: flex;
   gap: 10px;
   padding: 12px 20px;
-  background-color: var(--bg-input);
-  border-top: 1px solid var(--border-color);
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
   flex-shrink: 0;
   align-items: center;
 }
@@ -239,31 +547,26 @@ body {
   flex: 1;
   padding: 12px 18px;
   border-radius: 25px;
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-body);
-  color: var(--text-color);
+  border: 1px solid #e0e0e0;
+  background: #f0f2f5;
+  color: #111b21;
   font-size: 1.4rem;
   outline: none;
-  transition: border 0.2s;
 }
 
 .chat-input-form input:focus {
-  border-color: var(--bubble-user);
+  border-color: #ff0000;
 }
 
 .chat-input-form input::placeholder {
-  color: #888;
-}
-
-[data-theme="dark"] .chat-input-form input::placeholder {
-  color: #6a7a8a;
+  color: #667781;
 }
 
 .chat-input-form button {
   padding: 10px 24px;
   border-radius: 25px;
   border: none;
-  background-color: var(--bubble-user);
+  background: #ff0000;
   color: #ffffff;
   font-weight: 600;
   font-size: 1.3rem;
@@ -273,40 +576,56 @@ body {
 }
 
 .chat-input-form button:hover {
-  background-color: #1eaedb;
+  background: #e60000;
 }
 
-/* ============================================
-   7. RESPONSIVE
-   ============================================ */
-@media (max-width: 750px) {
-  .container {
-    padding: 0 10px;
-  }
-  
-  .one-third.column {
-    flex: 0 0 100%;
-    max-width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 20px;
-  }
-  
-  .one-third.column h4 {
-    margin: 0;
-    font-size: 1.6rem;
-  }
-  
-  .two-thirds.column {
-    flex: 0 0 100%;
-    max-width: 100%;
-    height: 100%;
-  }
-  
-  .message-bubble {
-    max-width: 85%;
-  }
+/* Dark mode untuk komponen chat (jika pakai .app-layout.dark) */
+.app-layout.dark .app-wrapper {
+  background: #0b141a;
+}
+
+.app-layout.dark .chat-area {
+  background: #0b141a;
+}
+
+.app-layout.dark .message-list {
+  background: #0b141a;
+}
+
+.app-layout.dark .message-bubble {
+  background: #1f2c38;
+  color: #e9edef;
+}
+
+.app-layout.dark .message-bubble.user {
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.app-layout.dark .message-bubble .username {
+  color: #ff6666;
+}
+
+.app-layout.dark .chat-input-form {
+  background: #111b21;
+  border-top-color: #2a3942;
+}
+
+.app-layout.dark .chat-input-form input {
+  background: #2a3942;
+  color: #e9edef;
+  border-color: #2a3942;
+}
+
+.app-layout.dark .chat-input-form input::placeholder {
+  color: #8696a0;
+}
+
+.app-layout.dark .chat-input-form button {
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.app-layout.dark .chat-input-form button:hover {
+  background: #cc0000;
 }
