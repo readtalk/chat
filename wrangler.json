@@ -3,7 +3,7 @@
 	"name": "chat",
 	"compatibility_date": "2025-10-08",
 	"compatibility_flags": ["nodejs_compat"],
-	"main": "src/server/index.ts",
+	"main": "build/server/index.ts",
 	"upload_source_maps": true,
 	"observability": {
 		"enabled": true
